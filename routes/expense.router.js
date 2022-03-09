@@ -9,8 +9,4 @@ Router.post('/', isAuth, expenseControllers.addExpense);
 Router.put('/:id', isAuth, expenseControllers.updateExpenseById);
 Router.delete('/:id', isAuth, expenseControllers.deleteExpenseById);
 
-
-
-
-
 module.exports = Router;

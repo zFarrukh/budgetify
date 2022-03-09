@@ -9,8 +9,4 @@ Router.post('/', isAuth, savingControllers.addSaving);
 Router.put('/:id', isAuth, savingControllers.updateSavingById);
 Router.delete('/:id', isAuth, savingControllers.deleteSavingById);
 
-
-
-
-
 module.exports = Router;

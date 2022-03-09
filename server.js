@@ -22,5 +22,5 @@ app.use('/savings', savingRouter);
 app.use('/stats', statsRouter);
 
 app.listen(process.env.PORT, () => {
-    console.log("App is running on port: " + process.env.PORT || 3000);
-})
+  console.log('App is running on port: ' + process.env.PORT || 3000);
+});

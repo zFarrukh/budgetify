@@ -1,5 +1,5 @@
 const isAdmin = (req, res, next) => {
-    next();
-}
+  next();
+};
 
 module.exports = isAdmin;

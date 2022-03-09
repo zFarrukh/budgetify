@@ -1,29 +1,24 @@
 const getAllAccounts = (req, res) => {
-    res.json({message: "GET account"});
-}
-
+  res.json({ message: 'GET account' });
+};
 
 const addAccount = (req, res) => {
-    res.json({message: "POST account"})
-}
+  res.json({ message: 'POST account' });
+};
 
 const deleteAccountById = (req, res) => {
-    const id = req.params.id;
-   
-    res.json({message: "DELETE account"});
-}
+  const id = req.params.id;
+  res.json({ message: 'DELETE account' });
+};
 
 const updateAccountById = (req, res) => {
-    const id = req.params.id;
-
-    
-
-    res.json({message: "PUT account"});
-}
+  const id = req.params.id;
+  res.json({ message: 'PUT account' });
+};
 
 module.exports = {
-    getAllAccounts,
-    addAccount,
-    deleteAccountById,
-    updateAccountById
-}
+  getAllAccounts,
+  addAccount,
+  deleteAccountById,
+  updateAccountById,
+};

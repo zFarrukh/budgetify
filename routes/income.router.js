@@ -9,8 +9,4 @@ Router.post('/', isAuth, incomeControllers.addIncome);
 Router.put('/:id', isAuth, incomeControllers.updateIncomeById);
 Router.delete('/:id', isAuth, incomeControllers.deleteIncomeById);
 
-
-
-
-
 module.exports = Router;
