@@ -1,3 +1,4 @@
+const Category = require('../models/category.model');
 let { categories } = require('../models/db');
 const { v4: uuidv4 } = require('uuid');
 

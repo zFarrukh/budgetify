@@ -2,6 +2,8 @@ const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const db = require('../models/db');
 
+const User = require('../models/user.model');
+
 const loginUser = (req, res) => {
   const { email, password } = req.body;
 
