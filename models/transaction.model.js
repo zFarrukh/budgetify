@@ -37,7 +37,7 @@ const transactionSchema = new mongoose.Schema({
     type: Number,
     required: true,
     min: 0,
-    validate: {},
+    // validate: {},
   },
   date_of_creation: {
     type: Date,
@@ -45,7 +45,6 @@ const transactionSchema = new mongoose.Schema({
   },
   date_of_update: {
     type: Date,
-    required: true,
   },
 });
 

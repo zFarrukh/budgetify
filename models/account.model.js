@@ -36,7 +36,7 @@ const accountSchema = new mongoose.Schema({
   amount: {
     type: Number,
     trim: true,
-    minlength: 1,
+    min: 0,
     validate: {
       validator: function (number) {
         const numAfterDots = decimalCount(number);
