@@ -41,14 +41,43 @@ const deleteExpenseById = async (req, res) => {
   }
 };
 
-const updateExpenseById = (req, res) => {
+const updateExpenseById = async (req, res) => {
+  const { title, amount, category, description } = req.body;
   const id = req.params.id;
-  res.json({ message: 'PUT expenses' });
-  // logic: totalAmount - amount
+  try {
+    const expense = await Transaction.findById(id);
+    const account = await Account.findById(expense.account_id);
+    const newAmount = !isNaN(amount)
+      ? account.amount + expense.amount - amount
+      : account.amount;
+    if (newAmount < 0) throw new Error("Amount couldn't be lower than 0");
+    await Transaction.findByIdAndUpdate(id, {
+      title,
+      amount,
+      category,
+      description,
+      date_of_update: new Date(),
+    });
+
+    await Account.findByIdAndUpdate(expense.account_id, { amount: newAmount });
+    res.json(expense);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ error: 'Bad request' });
+  }
 };
 
-const getExpenses = (req, res) => {
-  res.json({ message: 'GET expenses' });
+const getExpenses = async (req, res) => {
+  const account_id = req.query.account_id;
+  if (!account_id) {
+    return res.status(400).json({ error: 'Bad request' });
+  }
+  try {
+    const expenses = await Transaction.find({ account_id, type: 'expense' });
+    res.json(expenses);
+  } catch (err) {
+    res.status(400).json({ error: 'Bad request' });
+  }
 };
 
 module.exports = {
