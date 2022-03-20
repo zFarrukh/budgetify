@@ -1,7 +1,7 @@
-const db = require('../models/db');
+const User = require('../models/user.model');
 
 const isAdmin = (req, res, next) => {
-  const user = db.getUserByEmail(req.user.email);
+  const user = User.find({ email: req.user.email })[0];
 
   if (user && user.role.toLowerCase() === 'admin') {
     return next();

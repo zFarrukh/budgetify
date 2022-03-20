@@ -62,7 +62,6 @@ const updateExpenseById = async (req, res) => {
     await Account.findByIdAndUpdate(expense.account_id, { amount: newAmount });
     res.json(expense);
   } catch (err) {
-    console.log(err);
     res.status(400).json({ error: 'Bad request' });
   }
 };
