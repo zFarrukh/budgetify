@@ -1,31 +1,54 @@
 const validator = require('validator');
-let { users } = require('../models/db');
+const jwt = require('jsonwebtoken');
+const db = require('../models/db');
 
 const loginUser = (req, res) => {
-  const { email, userName } = req.body;
+  const { email, password } = req.body;
 
-  if (!email || !userName) {
+  if (!email || !password) {
     return res.status(400).json({ error: 'Bad Request' });
   }
 
-  if (!validator.isEmail(email) || !userName) {
+  if (!validator.isEmail(email) || !password) {
     return res.status(400).json({
-      error: 'email or username is not valid',
+      error: 'email or password is not valid',
     });
   }
 
-  const user = users.filter((user) => {
-    return user.email == email && user.userName == userName;
-  });
+  const user = db.loginUser(req.body.email, req.body.password);
 
-  if (!user[0]) {
+  if (!user) {
     return res.status(404).json({
       error: 'User is not found',
     });
   }
-  res.json(user);
+
+  const payload = {
+    id: user.id,
+    email: user.email,
+    role: user.role,
+  };
+
+  const token = jwt.sign(payload, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
+  });
+
+  res.status(200).json({
+    id: user.id,
+    email: user.email,
+    role: user.role,
+    token: `Bearer ${token}`,
+  });
+};
+
+const registerUser = (req, res) => {
+  const { email, password, role } = req.body;
+  db.registerUser({ email, password, role });
+
+  res.json(db.users);
 };
 
 module.exports = {
   loginUser,
+  registerUser,
 };
