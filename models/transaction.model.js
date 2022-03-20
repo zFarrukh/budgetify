@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { decimalCount } = require('../utils/utils');
 
 const transactionSchema = new mongoose.Schema({
   type: {
@@ -37,7 +38,16 @@ const transactionSchema = new mongoose.Schema({
     type: Number,
     required: true,
     min: 0,
-    // validate: {},
+    validate: {
+      validator: function (number) {
+        const numAfterDots = decimalCount(number);
+        if (numAfterDots > 2) {
+          return false;
+        }
+        return true;
+      },
+      message: 'There is more than 2 numbers after dot',
+    },
   },
   date_of_creation: {
     type: Date,
