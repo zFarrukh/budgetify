@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const MONGO_URL = `mongodb+srv://budgetify-api:${process.env.MONGO_KEY}@budgetifycluster.7xfxj.mongodb.net/budgetify?retryWrites=true&w=majority`;
+const MONGO_URL = process.env.MONGO_CONNECTION_STRING;
 
 mongoose.connection.once('open', () => {
   console.log('MongoDB connection ready');
