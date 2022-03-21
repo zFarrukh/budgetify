@@ -1,5 +1,5 @@
 require('dotenv').config();
-require('./config/mogoose');
+require('./database/mogoose');
 const express = require('express');
 const passport = require('passport');
 
