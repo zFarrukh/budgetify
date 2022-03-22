@@ -24,7 +24,7 @@ const addAccount = async (req, res) => {
     await account.save();
     res.json(account);
   } catch (err) {
-    res.status(400).json({ err: 'Bad request' });
+    res.status(400).json({ error: 'Bad request' });
   }
 };
 
