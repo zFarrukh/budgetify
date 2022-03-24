@@ -9,7 +9,7 @@ const addExpense = async (req, res) => {
   try {
     const account = await Account.findById(account_id);
     const newAmount = account.amount - amount;
-    if (newAmount < 0) throw new Error("Amount couldn't be lower than 0");
+    if (newAmount < 0) throw new Error('Amount could not be lower than 0');
     const expense = new Transaction({
       title,
       amount,
@@ -50,7 +50,7 @@ const updateExpenseById = async (req, res) => {
     const newAmount = !isNaN(amount)
       ? account.amount + expense.amount - amount
       : account.amount;
-    if (newAmount < 0) throw new Error("Amount couldn't be lower than 0");
+    if (newAmount < 0) throw new Error('Amount could not be lower than 0');
     await Transaction.findByIdAndUpdate(id, {
       title,
       amount,
