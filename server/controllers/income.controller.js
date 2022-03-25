@@ -34,7 +34,7 @@ const deleteIncomeById = async (req, res) => {
     const income = await Transaction.findByIdAndDelete(id);
     const account = await Account.findById(income.account_id);
     const newAmount = account.amount - income.amount;
-    if (newAmount < 0) throw new Error("Amount couldn't be lower than 0");
+    if (newAmount < 0) throw new Error('Amount could not be lower than 0');
     await Account.findByIdAndUpdate(income.account_id, { amount: newAmount });
     res.json(income);
   } catch (err) {
@@ -51,7 +51,7 @@ const updateIncomeById = async (req, res) => {
     const newAmount = !isNaN(amount)
       ? account.amount - income.amount + amount
       : account.amount;
-    if (newAmount < 0) throw new Error("Amount couldn't be lower than 0");
+    if (newAmount < 0) throw new Error('Amount could not be lower than 0');
     await Transaction.findByIdAndUpdate(id, {
       title,
       amount,

@@ -5,8 +5,9 @@ const getAllCategories = async (req, res) => {
   try {
     const categories = await Category.find({ account_id });
     res.json(categories);
-  } catch (err) {}
-  res.status(400).json({ error: 'Bad request' });
+  } catch (err) {
+    res.status(400).json({ error: 'Bad request' });
+  }
 };
 
 const addCategory = async (req, res) => {
