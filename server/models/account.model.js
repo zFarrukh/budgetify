@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const { decimalCount } = require('../utils/utils');
+const { decimalCount } = require('../utils/decimalCount.util');
 
 const accountSchema = new mongoose.Schema({
   user_id: {

@@ -1,9 +1,9 @@
 const Category = require('../models/category.model');
 
 const getAllCategories = async (req, res) => {
-  const account_id = req.query.account_id;
+  const user_id = req.user._id;
   try {
-    const categories = await Category.find({ account_id });
+    const categories = await Category.find({ user_id });
     res.json(categories);
   } catch (err) {
     res.status(400).json({ error: 'Bad request' });
@@ -11,15 +11,17 @@ const getAllCategories = async (req, res) => {
 };
 
 const addCategory = async (req, res) => {
-  const { type, title, account_id } = req.body;
+  const { type, title } = req.body;
+  const user_id = req.user._id;
+  console.log(req.user);
 
   try {
-    const category = new Category({ type, title, account_id });
+    const category = new Category({ type, title, user_id });
     await category.save();
 
     res.json(category);
   } catch (err) {
-    res.status(400).json({ error: 'Bad request' });
+    res.status(400).json({ error: err.message });
   }
 };
 

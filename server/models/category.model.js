@@ -22,9 +22,10 @@ const categorySchema = new mongoose.Schema({
     trim: true,
     required: true,
   },
-  account_id: {
-    ref: 'Account',
+  user_id: {
+    ref: 'User',
     type: mongoose.Schema.Types.ObjectId,
+    required: true,
   },
 });
 
