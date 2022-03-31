@@ -2,6 +2,8 @@ const validator = require('validator');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user.model');
+const Category = require('../models/category.model');
+const generateDefaultCategories = require('../utils/generateDefaultCategories.util');
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
@@ -58,6 +60,7 @@ const registerUser = async (req, res) => {
   try {
     const user = new User({ email, password, role, name });
     await user.save();
+    await Category.insertMany(generateDefaultCategories(user._id));
     res.status(201).json(user);
   } catch (err) {
     res.status(401).json({ error: 'Bad request' });
