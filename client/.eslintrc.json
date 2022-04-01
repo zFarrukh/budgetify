@@ -15,7 +15,6 @@
   },
   "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
-    "linebreak-style": ["error", "windows"],
     "quotes": ["error", "single"],
     "semi": [2, "always"],
     "no-unused-vars": ["error", { "vars": "all", "args": "none" }]
