@@ -12,7 +12,7 @@ const loginUser = async (req, res) => {
 
   if (!validator.isEmail(email)) {
     return res.status(400).json({
-      error: 'email or password is not valid',
+      error: 'email is not valid',
     });
   }
 
@@ -49,7 +49,9 @@ const loginUser = async (req, res) => {
       error: 'Unauthorized',
     });
   } catch (err) {
-    console.log(err);
+    return res.status(500).json({
+      error: 'Internal Server Error',
+    });
   }
 };
 
