@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthFormComponent } from './auth-form/auth-form.component';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+import { SharedModule } from '../shared/shared.module';
 
 const routes: Routes = [
   {
@@ -17,18 +15,11 @@ const routes: Routes = [
 @NgModule({
   declarations: [AuthFormComponent],
   imports: [
-    MatInputModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
     CommonModule,
+    ReactiveFormsModule,
     RouterModule.forChild(routes),
+    SharedModule,
   ],
-  exports: [
-    AuthFormComponent,
-    MatButtonModule,
-    MatInputModule,
-    MatFormFieldModule,
-  ],
+  exports: [AuthFormComponent],
 })
 export class AuthModule {}
