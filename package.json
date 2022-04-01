@@ -1,0 +1,22 @@
+{
+  "name": "budgetify",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "client": "cd client && npm start",
+    "server": "cd server && npm start",
+    "dev": "npm run server | npm run client"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zFarrukh/budgetify.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zFarrukh/budgetify/issues"
+  },
+  "homepage": "https://github.com/zFarrukh/budgetify#readme"
+}
