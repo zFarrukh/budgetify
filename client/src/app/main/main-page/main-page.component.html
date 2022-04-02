@@ -1,3 +1,9 @@
 <app-header></app-header>
-<p>main-page works!</p>
-<router-outlet></router-outlet>
+<mat-grid-list cols="4">
+  <mat-grid-tile colspan="1">
+    <app-account></app-account>
+  </mat-grid-tile>
+  <mat-grid-tile colspan="3">
+    <router-outlet></router-outlet>
+  </mat-grid-tile>
+</mat-grid-list>

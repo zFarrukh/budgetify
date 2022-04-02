@@ -7,6 +7,7 @@ import { StatisticsPageComponent } from './statistics-page/statistics-page.compo
 import { LayoutModule } from '../layout/layout.module';
 import { AccountComponent } from './main-page/account/account.component';
 import { TransactionsComponent } from './main-page/transactions/transactions.component';
+import { SharedModule } from '../shared/shared.module';
 
 const routes: Routes = [
   {
@@ -33,6 +34,11 @@ const routes: Routes = [
     AccountComponent,
     TransactionsComponent,
   ],
-  imports: [CommonModule, RouterModule.forChild(routes), LayoutModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    LayoutModule,
+    SharedModule,
+  ],
 })
 export class MainModule {}
