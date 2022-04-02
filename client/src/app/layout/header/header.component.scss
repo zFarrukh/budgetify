@@ -33,4 +33,13 @@
       cursor: pointer;
     }
   }
+
+  &__logout-button {
+    display: flex;
+    align-items: center;
+  }
+
+  &__logout-icon {
+    margin-left: 0.5rem;
+  }
 }
