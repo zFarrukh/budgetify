@@ -12,6 +12,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { AuthModule } from './auth/auth.module';
 import { MainModule } from './main/main.module';
 import { CategoriesModule } from './categories/categories.module';
+import { LayoutModule } from './layout/layout.module';
 
 @NgModule({
   declarations: [AppComponent, NotFoundComponent],
@@ -19,6 +20,7 @@ import { CategoriesModule } from './categories/categories.module';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    LayoutModule,
     AuthModule,
     MainModule,
     CategoriesModule,
