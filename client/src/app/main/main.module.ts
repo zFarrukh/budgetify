@@ -5,6 +5,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../auth/auth.guard';
 import { StatisticsPageComponent } from './statistics-page/statistics-page.component';
 import { LayoutModule } from '../layout/layout.module';
+import { AccountComponent } from './main-page/account/account.component';
+import { TransactionsComponent } from './main-page/transactions/transactions.component';
 
 const routes: Routes = [
   {
@@ -12,6 +14,10 @@ const routes: Routes = [
     component: MainPageComponent,
     canActivate: [AuthGuard],
     children: [
+      {
+        path: '',
+        component: TransactionsComponent,
+      },
       {
         path: 'statistics',
         component: StatisticsPageComponent,
@@ -21,7 +27,12 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [MainPageComponent, StatisticsPageComponent],
+  declarations: [
+    MainPageComponent,
+    StatisticsPageComponent,
+    AccountComponent,
+    TransactionsComponent,
+  ],
   imports: [CommonModule, RouterModule.forChild(routes), LayoutModule],
 })
 export class MainModule {}

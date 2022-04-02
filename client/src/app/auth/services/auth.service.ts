@@ -8,7 +8,10 @@ import { User } from '../auth.model';
 })
 export class AuthService {
   constructor(private http: HttpClient) {}
-
+  user: any = null;
+  get myUser() {
+    return this.user;
+  }
   login(email: string, password: string): Observable<User> {
     return this.http
       .post('http://localhost:3000/user/login', {
@@ -28,6 +31,7 @@ export class AuthService {
       'expiresIn',
       (new Date().getTime() + 3600 * 1000).toString()
     );
+    this.user = data;
   }
 
   public isLoggedIn(): boolean {
@@ -49,5 +53,6 @@ export class AuthService {
   public logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('expiresIn');
+    this.user = null;
   }
 }
