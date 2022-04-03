@@ -1,9 +1,11 @@
 <app-header></app-header>
-<mat-grid-list cols="4">
-  <mat-grid-tile colspan="1">
-    <app-account></app-account>
-  </mat-grid-tile>
-  <mat-grid-tile colspan="3">
-    <router-outlet></router-outlet>
-  </mat-grid-tile>
-</mat-grid-list>
+<div class="container">
+  <div class="row">
+    <div class="col-3">
+      <app-account></app-account>
+    </div>
+    <div class="col-9">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

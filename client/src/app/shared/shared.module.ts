@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [],
@@ -17,6 +18,7 @@ import { MatCardModule } from '@angular/material/card';
     MatGridListModule,
     MatIconModule,
     MatCardModule,
+    MatSidenavModule,
   ],
   exports: [
     MatInputModule,
@@ -25,6 +27,7 @@ import { MatCardModule } from '@angular/material/card';
     MatGridListModule,
     MatIconModule,
     MatCardModule,
+    MatSidenavModule,
   ],
 })
 export class SharedModule {}

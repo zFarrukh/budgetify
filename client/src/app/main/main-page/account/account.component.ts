@@ -9,12 +9,22 @@ import { AccountService } from './account.service';
 })
 export class AccountComponent implements OnInit {
   accounts: IAccount[] = [];
+  selectedAccount: IAccount | undefined;
+
+  selectAccount(account: IAccount) {
+    if (this.selectedAccount !== account) {
+      this.accountService.selectAccount.next(account);
+    }
+    this.selectedAccount = account;
+  }
+
   constructor(private accountService: AccountService) {}
 
   ngOnInit(): void {
     this.accountService.getAccounts().subscribe({
       next: (accounts) => {
         this.accounts = accounts;
+        this.selectedAccount = accounts[0];
       },
     });
   }

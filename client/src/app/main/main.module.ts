@@ -8,6 +8,8 @@ import { LayoutModule } from '../layout/layout.module';
 import { AccountComponent } from './main-page/account/account.component';
 import { TransactionsComponent } from './main-page/transactions/transactions.component';
 import { SharedModule } from '../shared/shared.module';
+import { TransactionDetailComponent } from './main-page/transactions/transaction-detail/transaction-detail.component';
+import { TransactionEditComponent } from './main-page/transactions/transaction-edit/transaction-edit.component';
 
 const routes: Routes = [
   {
@@ -33,6 +35,8 @@ const routes: Routes = [
     StatisticsPageComponent,
     AccountComponent,
     TransactionsComponent,
+    TransactionDetailComponent,
+    TransactionEditComponent,
   ],
   imports: [
     CommonModule,
