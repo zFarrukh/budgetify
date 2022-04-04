@@ -10,7 +10,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { AuthModule } from './auth/auth.module';
-import { MainModule } from './main/main.module';
 import { CategoriesModule } from './categories/categories.module';
 
 @NgModule({
@@ -20,7 +19,6 @@ import { CategoriesModule } from './categories/categories.module';
     BrowserAnimationsModule,
     HttpClientModule,
     AuthModule,
-    MainModule,
     CategoriesModule,
     AppRoutingModule,
   ],
