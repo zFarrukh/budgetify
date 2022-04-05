@@ -8,6 +8,7 @@ import { ITransaction } from './transaction.model';
 })
 export class TransactionsService {
   public transactions: ITransaction[] = [];
+  public deletedTransaction!: ITransaction;
   public selectedTransaction = new Subject<ITransaction>();
 
   getTransactions(account_id: string): Observable<any> {
@@ -24,6 +25,16 @@ export class TransactionsService {
           },
         })
       );
+  }
+
+  deleteTransactionById(id: string): Observable<any> {
+    return this.http.delete(`http://localhost:3000/transactions/${id}`).pipe(
+      tap({
+        next: (res: any) => {
+          this.deletedTransaction = res;
+        },
+      })
+    );
   }
 
   constructor(private http: HttpClient) {}
