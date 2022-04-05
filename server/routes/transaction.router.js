@@ -9,5 +9,7 @@ Router.use(isAuth);
 
 Router.get('/', transactionController.getTransactions);
 Router.delete('/:id', transactionController.deleteTransactionById);
+Router.post('/', transactionController.addTransaction);
+Router.put('/:id', transactionController.updateTransactionById);
 
 module.exports = Router;
