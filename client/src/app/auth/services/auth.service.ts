@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { User } from '../auth.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ export class AuthService {
 
   login(email: string, password: string): Observable<User> {
     return this.http
-      .post('http://localhost:3000/user/login', {
+      .post(environment.API_URL + '/user/login', {
         email,
         password,
       })
@@ -26,7 +27,7 @@ export class AuthService {
     localStorage.setItem('token', data.token);
     localStorage.setItem(
       'expiresIn',
-      (new Date().getTime() + 3600 * 1000).toString()
+      (new Date().getTime() + data.expiresIn * 1000).toString()
     );
   }
 

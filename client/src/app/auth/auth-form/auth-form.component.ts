@@ -27,10 +27,9 @@ export class AuthFormComponent implements OnDestroy {
 
   public onFormSubmit(): void {
     const { email, password } = this.loginForm.value;
+    this.loginErrorMessage = '';
     this.subscription = this.authService.login(email, password).subscribe({
       next: (userData) => {
-        console.log(userData);
-        this.loginErrorMessage = '';
         this.router.navigateByUrl('/');
       },
       error: (e) => {
@@ -42,6 +41,8 @@ export class AuthFormComponent implements OnDestroy {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

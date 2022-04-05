@@ -43,6 +43,7 @@ const loginUser = async (req, res) => {
         role: user.role,
         name: user.name,
         token: `${token}`,
+        expiresIn: process.env.JWT_EXPIRES_IN,
       });
     }
     return res.status(401).json({
