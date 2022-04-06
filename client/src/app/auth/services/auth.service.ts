@@ -27,7 +27,7 @@ export class AuthService {
     localStorage.setItem('token', data.token);
     localStorage.setItem(
       'expiresIn',
-      (new Date().getTime() + data.expiresIn * 1000).toString()
+      (new Date().getTime() + data.expiresIn).toString()
     );
   }
 

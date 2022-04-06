@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./auth-form.component.scss'],
 })
 export class AuthFormComponent implements OnDestroy {
-  subscription: Subscription;
+  subscription!: Subscription;
   public loginErrorMessage = '';
   public isPasswordShown = false;
   public loginForm: FormGroup = new FormGroup({

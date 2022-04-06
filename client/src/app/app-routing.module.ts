@@ -9,14 +9,12 @@ import { NotFoundComponent } from './not-found/not-found.component';
 const routes: Routes = [
   {
     path: 'category',
-    pathMatch: 'full',
     canActivate: [AuthGuard],
     loadChildren: () =>
       import('./categories/categories.module').then((m) => m.CategoriesModule),
   },
   {
     path: 'login',
-    pathMatch: 'full',
     canActivate: [ProtectForAuthorizedGuard],
     component: AuthFormComponent,
   },
