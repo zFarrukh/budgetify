@@ -71,8 +71,11 @@ const updateTransactionById = async (req, res) => {
     const transaction = await Transaction.findById(id);
     const account = await Account.findById(transaction.account_id);
     let newAmount;
-    if (type === 'income') {
-      if (transaction.type === 'income') {
+    if (!transaction || !account) {
+      return res.status(400).json({ error: 'Bad request' });
+    }
+    if (transaction.type === 'income') {
+      if (type === 'income') {
         newAmount = !isNaN(amount)
           ? account.amount - transaction.amount + amount
           : account.amount;
@@ -83,8 +86,8 @@ const updateTransactionById = async (req, res) => {
           : account.amount - 2 * transaction.amount;
         if (newAmount < 0) throw new Error('Amount could not be lower than 0');
       }
-    } else if (type === 'expense') {
-      if (transaction.type === 'expense') {
+    } else if (transaction.type === 'expense') {
+      if (type === 'expense') {
         newAmount = !isNaN(amount)
           ? account.amount + transaction.amount - amount
           : account.amount;
@@ -107,6 +110,8 @@ const updateTransactionById = async (req, res) => {
       date_of_update: new Date(),
       type,
     });
+
+    res.json(transaction);
   } catch (err) {
     res.status(400).json({ error: 'Bad request' });
   }
