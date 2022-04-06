@@ -12,12 +12,12 @@ export class AuthService {
 
   login(email: string, password: string): Observable<User> {
     return this.http
-      .post(environment.API_URL + '/user/login', {
+      .post<User>(environment.API_URL + '/user/login', {
         email,
         password,
       })
       .pipe(
-        tap((res: User | any) => {
+        tap((res: User) => {
           this.setSession(res);
         })
       );
