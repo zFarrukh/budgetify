@@ -7,7 +7,7 @@ import { LayoutModule } from '../layout/layout.module';
 
 const routes: Routes = [
   {
-    path: 'category',
+    path: '',
     component: CategoriesPageComponent,
     canActivate: [AuthGuard],
   },

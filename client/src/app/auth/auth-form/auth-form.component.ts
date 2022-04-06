@@ -1,14 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-auth-form',
   templateUrl: './auth-form.component.html',
   styleUrls: ['./auth-form.component.scss'],
 })
-export class AuthFormComponent implements OnInit {
+export class AuthFormComponent implements OnDestroy {
+  subscription!: Subscription;
   public loginErrorMessage = '';
   public isPasswordShown = false;
   public loginForm: FormGroup = new FormGroup({
@@ -25,10 +27,9 @@ export class AuthFormComponent implements OnInit {
 
   public onFormSubmit(): void {
     const { email, password } = this.loginForm.value;
-    this.authService.login(email, password).subscribe({
+    this.loginErrorMessage = '';
+    this.subscription = this.authService.login(email, password).subscribe({
       next: (userData) => {
-        console.log(userData);
-        this.loginErrorMessage = '';
         this.router.navigateByUrl('/');
       },
       error: (e) => {
@@ -39,9 +40,9 @@ export class AuthFormComponent implements OnInit {
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  ngOnInit(): void {
-    if (this.authService.isLoggedIn()) {
-      this.router.navigateByUrl('/');
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
 }

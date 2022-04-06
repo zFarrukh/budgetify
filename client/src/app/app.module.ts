@@ -9,10 +9,6 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AuthInterceptor } from './auth/auth.interceptor';
-import { AuthModule } from './auth/auth.module';
-import { MainModule } from './main/main.module';
-import { CategoriesModule } from './categories/categories.module';
-import { LayoutModule } from './layout/layout.module';
 
 @NgModule({
   declarations: [AppComponent, NotFoundComponent],
@@ -20,10 +16,6 @@ import { LayoutModule } from './layout/layout.module';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    LayoutModule,
-    AuthModule,
-    MainModule,
-    CategoriesModule,
     AppRoutingModule,
   ],
   providers: [
