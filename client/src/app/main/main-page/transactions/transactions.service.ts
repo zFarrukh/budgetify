@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, tap } from 'rxjs';
 import { ITransaction } from './transaction.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -11,30 +12,32 @@ export class TransactionsService {
   public deletedTransaction!: ITransaction;
   public selectedTransaction = new Subject<ITransaction>();
 
-  getTransactions(account_id: string): Observable<any> {
+  getTransactions(account_id: string): Observable<ITransaction[]> {
     return this.http
-      .get('http://localhost:3000/transactions', {
+      .get<ITransaction[]>(`${environment.API_URL}/transactions`, {
         params: {
           account_id: account_id,
         },
       })
       .pipe(
         tap({
-          next: (res: any) => {
+          next: (res: ITransaction[]) => {
             this.transactions = res;
           },
         })
       );
   }
 
-  deleteTransactionById(id: string): Observable<any> {
-    return this.http.delete(`http://localhost:3000/transactions/${id}`).pipe(
-      tap({
-        next: (res: any) => {
-          this.deletedTransaction = res;
-        },
-      })
-    );
+  deleteTransactionById(id: string): Observable<ITransaction> {
+    return this.http
+      .delete<ITransaction>(`${environment.API_URL}/transactions/${id}`)
+      .pipe(
+        tap({
+          next: (res: ITransaction) => {
+            this.deletedTransaction = res;
+          },
+        })
+      );
   }
 
   constructor(private http: HttpClient) {}

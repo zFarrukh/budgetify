@@ -1,6 +1,6 @@
 export interface IAccount {
   title: string;
-  description: string;
+  description?: string;
   currency: string;
   amount: number;
   _id: string;

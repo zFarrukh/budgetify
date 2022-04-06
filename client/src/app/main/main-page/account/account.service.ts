@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, tap } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { IAccount } from './account.model';
 
 @Injectable({
@@ -10,10 +11,10 @@ export class AccountService {
   public accounts: IAccount[] = [];
   public selectAccount = new Subject<IAccount>();
 
-  getAccounts(): Observable<any> {
-    return this.http.get('http://localhost:3000/accounts').pipe(
+  getAccounts(): Observable<IAccount[]> {
+    return this.http.get<IAccount[]>(`${environment.API_URL}/accounts`).pipe(
       tap({
-        next: (res: IAccount[] | any) => {
+        next: (res: IAccount[]) => {
           this.accounts = res;
           this.selectAccount.next(this.accounts[0]);
         },

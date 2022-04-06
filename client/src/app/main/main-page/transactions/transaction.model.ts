@@ -2,7 +2,7 @@ export interface ITransaction {
   _id: string;
   type: string;
   account_id: string;
-  description: string;
+  description?: string;
   title: string;
   category: string;
   amount: number;

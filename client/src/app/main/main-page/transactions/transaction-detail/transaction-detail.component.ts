@@ -8,7 +8,7 @@ import { TransactionsService } from '../transactions.service';
   styleUrls: ['./transaction-detail.component.scss'],
 })
 export class TransactionDetailComponent implements OnInit {
-  @Input() currency: string | any;
+  @Input() currency!: string;
   @ViewChild('drawer') drawer: any;
   transaction: ITransaction | null = null;
   onClose(): void {
@@ -26,7 +26,6 @@ export class TransactionDetailComponent implements OnInit {
         setTimeout(() => {
           this.drawer.open();
         }, 0);
-        console.log(transaction);
       },
     });
   }
