@@ -14,7 +14,7 @@ const loginUser = async (req, res) => {
 
   if (!validator.isEmail(email)) {
     return res.status(400).json({
-      error: 'email or password is not valid',
+      error: 'email is not valid',
     });
   }
 
@@ -45,13 +45,16 @@ const loginUser = async (req, res) => {
         role: user.role,
         name: user.name,
         token: `${token}`,
+        expiresIn: process.env.JWT_EXPIRES_IN,
       });
     }
     return res.status(401).json({
       error: 'Unauthorized',
     });
   } catch (err) {
-    console.log(err);
+    return res.status(500).json({
+      error: 'Internal Server Error',
+    });
   }
 };
 
