@@ -1,6 +1,10 @@
-<mat-drawer-container class="transaction" autosize *ngIf="transaction">
+<mat-drawer-container
+  class="transaction"
+  autosize
+  [ngClass]="transaction ? '' : 'display-none'"
+>
   <mat-drawer #drawer class="transaction__sidenav" mode="side" position="end">
-    <div class="transaction__content">
+    <div class="transaction__content" *ngIf="transaction">
       <div class="transaction__header">
         <div class="transaction__header-title">
           <h1>Transaction Information</h1>
