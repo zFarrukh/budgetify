@@ -14,6 +14,7 @@ export class AccountComponent implements OnInit {
   selectAccount(account: IAccount) {
     if (this.selectedAccount !== account) {
       this.accountService.selectAccount.next(account);
+      this.accountService.selectedAccount = account;
     }
     this.selectedAccount = account;
   }

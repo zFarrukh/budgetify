@@ -10,13 +10,13 @@ import { ICategoryStatistics, IMonthlyStatistics } from './statistics.model';
 export class StatisticsService {
   getMonthlyStatistics(account_id: string): Observable<IMonthlyStatistics[]> {
     return this.http.get<IMonthlyStatistics[]>(
-      `${environment.API_URL}/statistics?account_id=${account_id}`
+      `${environment.API_URL}/stats/monthly?account_id=${account_id}`
     );
   }
 
-  getCategoryStatistics(account_id: string): Observable<ICategoryStatistics> {
-    return this.http.get<ICategoryStatistics>(
-      `${environment.API_URL}/statistics/category?account_id=${account_id}`
+  getCategoryStatistics(account_id: string): Observable<ICategoryStatistics[]> {
+    return this.http.get<ICategoryStatistics[]>(
+      `${environment.API_URL}/stats/category?account_id=${account_id}`
     );
   }
 

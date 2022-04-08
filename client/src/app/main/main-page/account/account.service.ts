@@ -10,6 +10,7 @@ import { IAccount } from './account.model';
 export class AccountService {
   public accounts: IAccount[] = [];
   public selectAccount = new Subject<IAccount>();
+  public selectedAccount!: IAccount;
 
   getAccounts(): Observable<IAccount[]> {
     return this.http.get<IAccount[]>(`${environment.API_URL}/accounts`).pipe(
@@ -17,6 +18,7 @@ export class AccountService {
         next: (res: IAccount[]) => {
           this.accounts = res;
           this.selectAccount.next(this.accounts[0]);
+          this.selectedAccount = this.accounts[0];
         },
       })
     );

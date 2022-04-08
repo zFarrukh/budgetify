@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MainPageComponent } from './main-page/main-page.component';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+import { MainPageComponent } from './main-page/main-page.component';
 import { StatisticsPageComponent } from './statistics-page/statistics-page.component';
 import { LayoutModule } from '../layout/layout.module';
 import { AccountComponent } from './main-page/account/account.component';
@@ -41,6 +42,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     LayoutModule,
     SharedModule,
+    ReactiveFormsModule,
   ],
 })
 export class MainModule {}

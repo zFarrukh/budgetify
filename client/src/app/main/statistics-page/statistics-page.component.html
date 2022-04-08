@@ -1,1 +1,64 @@
-<p>statistics-page works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-9">
+      <div class="stats__container">
+        <div class="stats__select-type">
+          <button
+            [ngClass]="isCategoryStatistics ? 'active' : ''"
+            (click)="showCategoryStatistics()"
+          >
+            Category Statistics
+          </button>
+          <button
+            [ngClass]="!isCategoryStatistics ? 'active' : ''"
+            (click)="showMonthlyStatistics()"
+          >
+            Monthly Statistics
+          </button>
+        </div>
+        <div class="stats">
+          <div class="stats__monthly" *ngIf="!isCategoryStatistics">
+            <table class="table">
+              <thead>
+                <tr class="table-success">
+                  <th>Month</th>
+                  <th>Income</th>
+                  <th>Expense</th>
+                  <th>Economy</th>
+                  <th>% of Economy</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let monthlyStat of monthlyStatistics">
+                  <td>{{ monthlyStat.month }}</td>
+                  <td>{{ monthlyStat.income }}</td>
+                  <td>{{ monthlyStat.expense }}</td>
+                  <td>{{ monthlyStat.economy }}</td>
+                  <td>{{ monthlyStat.economy_percentage }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="stats__category" *ngIf="isCategoryStatistics">
+            <table class="table">
+              <thead>
+                <tr class="table-success">
+                  <th>Category</th>
+                  <th>Amount</th>
+                  <th>% in total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let categoryStat of categoryStatistics">
+                  <td>{{ categoryStat.category }}</td>
+                  <td>{{ categoryStat.amount }}</td>
+                  <td>{{ categoryStat.percentage }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
