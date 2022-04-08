@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AccountService } from '../main-page/account/account.service';
 import { ICategoryStatistics, IMonthlyStatistics } from './statistics.model';
 import { StatisticsService } from './statistics.service';
+
+import { dateValidator } from './statistics.validator';
 
 @Component({
   selector: 'app-statistics-page',
@@ -13,6 +16,31 @@ export class StatisticsPageComponent implements OnInit {
   categoryStatistics: ICategoryStatistics[] = [];
   account_id = '';
   isCategoryStatistics = false;
+
+  fetchData() {
+    this.statisticsService
+      .getCategoryStatistics(this.account_id, {
+        fromDate: this.range.value.start,
+        toDate: this.range.value.end,
+      })
+      .subscribe((data) => {
+        this.categoryStatistics = data;
+      });
+
+    this.statisticsService
+      .getMonthlyStatistics(this.account_id, {
+        fromDate: this.range.value.start,
+        toDate: this.range.value.end,
+      })
+      .subscribe((data) => {
+        this.monthlyStatistics = data;
+      });
+  }
+
+  range = new FormGroup({
+    start: new FormControl(null, [Validators.required, dateValidator()]),
+    end: new FormControl(null, [Validators.required, dateValidator()]),
+  });
 
   showCategoryStatistics() {
     this.isCategoryStatistics = true;

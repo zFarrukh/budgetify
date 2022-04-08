@@ -17,6 +17,30 @@
           </button>
         </div>
         <div class="stats">
+          <form [formGroup]="range" (submit)="fetchData()">
+            <mat-form-field appearance="fill" class="stats__date-picker">
+              <mat-label>Enter a date range</mat-label>
+              <mat-date-range-input [rangePicker]="picker">
+                <input
+                  matStartDate
+                  placeholder="Start date"
+                  formControlName="start"
+                />
+                <input
+                  matEndDate
+                  placeholder="End date"
+                  formControlName="end"
+                />
+              </mat-date-range-input>
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+            <button type="submit" [disabled]="!range.valid">Fetch data</button>
+          </form>
+
           <div class="stats__monthly" *ngIf="!isCategoryStatistics">
             <table class="table">
               <thead>

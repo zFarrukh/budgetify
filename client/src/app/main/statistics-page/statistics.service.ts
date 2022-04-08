@@ -8,13 +8,33 @@ import { ICategoryStatistics, IMonthlyStatistics } from './statistics.model';
   providedIn: 'root',
 })
 export class StatisticsService {
-  getMonthlyStatistics(account_id: string): Observable<IMonthlyStatistics[]> {
+  getMonthlyStatistics(
+    account_id: string,
+    options?: { fromDate: Date; toDate: Date }
+  ): Observable<IMonthlyStatistics[]> {
+    if (options) {
+      const result = new Date();
+      result.setDate(options.toDate.getDate() + 1);
+      return this.http.get<IMonthlyStatistics[]>(
+        `${environment.API_URL}/stats/monthly?account_id=${account_id}&fromDate=${options.fromDate}&toDate=${result}`
+      );
+    }
     return this.http.get<IMonthlyStatistics[]>(
       `${environment.API_URL}/stats/monthly?account_id=${account_id}`
     );
   }
 
-  getCategoryStatistics(account_id: string): Observable<ICategoryStatistics[]> {
+  getCategoryStatistics(
+    account_id: string,
+    options?: { fromDate: Date; toDate: Date }
+  ): Observable<ICategoryStatistics[]> {
+    if (options) {
+      const result = new Date();
+      result.setDate(options.toDate.getDate() + 1);
+      return this.http.get<ICategoryStatistics[]>(
+        `${environment.API_URL}/stats/category?account_id=${account_id}&fromDate=${options.fromDate}&toDate=${result}`
+      );
+    }
     return this.http.get<ICategoryStatistics[]>(
       `${environment.API_URL}/stats/category?account_id=${account_id}`
     );
