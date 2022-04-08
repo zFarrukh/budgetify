@@ -4,6 +4,7 @@ import { CategoriesPageComponent } from './categories-page/categories-page.compo
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../auth/auth.guard';
 import { LayoutModule } from '../layout/layout.module';
+import { MatIconModule } from '@angular/material/icon';
 
 const routes: Routes = [
   {
@@ -15,6 +16,11 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [CategoriesPageComponent],
-  imports: [CommonModule, RouterModule.forChild(routes), LayoutModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    LayoutModule,
+    MatIconModule,
+  ],
 })
 export class CategoriesModule {}
