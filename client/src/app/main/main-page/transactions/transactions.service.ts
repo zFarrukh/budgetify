@@ -9,7 +9,6 @@ import { environment } from 'src/environments/environment';
 })
 export class TransactionsService {
   public transactions: ITransaction[] = [];
-  public deletedTransaction!: ITransaction;
   public selectedTransaction = new Subject<ITransaction>();
 
   getTransactions(account_id: string): Observable<ITransaction[]> {
@@ -29,15 +28,9 @@ export class TransactionsService {
   }
 
   deleteTransactionById(id: string): Observable<ITransaction> {
-    return this.http
-      .delete<ITransaction>(`${environment.API_URL}/transactions/${id}`)
-      .pipe(
-        tap({
-          next: (res: ITransaction) => {
-            this.deletedTransaction = res;
-          },
-        })
-      );
+    return this.http.delete<ITransaction>(
+      `${environment.API_URL}/transactions/${id}`
+    );
   }
 
   constructor(private http: HttpClient) {}
