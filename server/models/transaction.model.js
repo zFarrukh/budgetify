@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { decimalCount } = require('../utils/utils');
+const { decimalCount } = require('../utils/decimalCount.util');
 
 const transactionSchema = new mongoose.Schema({
   type: {
