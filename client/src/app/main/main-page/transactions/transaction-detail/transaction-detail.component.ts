@@ -1,4 +1,11 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { ITransaction } from '../transaction.model';
 import { TransactionsService } from '../transactions.service';
 
@@ -9,12 +16,21 @@ import { TransactionsService } from '../transactions.service';
 })
 export class TransactionDetailComponent implements OnInit {
   @Input() currency!: string;
+  @Output() deletedTransaction = new EventEmitter<ITransaction>();
   @ViewChild('drawer') drawer: any;
   transaction: ITransaction | null = null;
+
   onClose(): void {
     this.drawer.close();
-
     this.transaction = null;
+  }
+
+  onDeleteTransaction(): void {
+    if (this.transaction) {
+      this.deletedTransaction.emit(this.transaction);
+      this.drawer.close();
+      this.transaction = null;
+    }
   }
 
   constructor(private transactionsService: TransactionsService) {}

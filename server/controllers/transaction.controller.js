@@ -48,13 +48,22 @@ const getTransactions = async (req, res) => {
 };
 
 const deleteTransactionById = async (req, res) => {
-  const transaction_id = req.params.id;
-  if (!transaction_id) {
-    return res.status(400).json({ error: 'Bad request' });
-  }
   try {
-    const transaction = await Transaction.findByIdAndDelete(transaction_id);
-    res.status(200).json(transaction);
+    const id = req.params.id;
+    const transaction = await Transaction.findById(id);
+    const account = await Account.findById(transaction.account_id);
+    let newAmount;
+    if (account.type === 'expense') {
+      newAmount = account.amount + transaction.amount;
+    } else {
+      newAmount = account.amount - transaction.amount;
+    }
+    if (newAmount < 0) throw new Error('Amount could not be lower than 0');
+    await Account.findByIdAndUpdate(transaction.account_id, {
+      amount: newAmount,
+    });
+    const deletedTransaction = await Transaction.findByIdAndDelete(id);
+    res.json(deletedTransaction);
   } catch (err) {
     res.status(400).json({ error: 'Bad request' });
   }

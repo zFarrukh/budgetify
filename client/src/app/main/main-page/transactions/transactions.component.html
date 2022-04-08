@@ -2,6 +2,9 @@
   <div class="row">
     <div class="col-9">
       <div class="transactions__wrapper">
+        <div *ngIf="isDeletedTransaction" class="transaction-removed">
+          Transaction was successfully removed
+        </div>
         <div
           class="transaction"
           *ngFor="let transaction of transactions"
@@ -57,4 +60,7 @@
   </div>
 </div>
 
-<app-transaction-detail [currency]="currency"></app-transaction-detail>
+<app-transaction-detail
+  [currency]="currency"
+  (deletedTransaction)="onDeleteTransaction($event)"
+></app-transaction-detail>

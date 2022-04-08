@@ -12,9 +12,24 @@ import { TransactionsService } from './transactions.service';
 export class TransactionsComponent implements OnInit {
   transactions: ITransaction[] = this.transactionsService.transactions;
   currency = '';
+  isDeletedTransaction = false;
 
   onSelectTransaction(transaction: ITransaction) {
     this.transactionsService.selectedTransaction.next(transaction);
+  }
+
+  onDeleteTransaction(transaction: ITransaction) {
+    this.transactionsService.deleteTransactionById(transaction._id).subscribe({
+      next: (res: ITransaction) => {
+        this.transactions = this.transactions.filter(
+          (transaction) => transaction._id !== res._id
+        );
+        this.isDeletedTransaction = true;
+        setTimeout(() => {
+          this.isDeletedTransaction = false;
+        }, 2000);
+      },
+    });
   }
 
   constructor(
