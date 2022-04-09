@@ -40,5 +40,44 @@ export class StatisticsService {
     );
   }
 
+  getTotalAndAverageStatistics(statistics: IMonthlyStatistics[]): {
+    total: {
+      income: number;
+      expense: number;
+      economy: number;
+      economy_percentage: number;
+    };
+    average: {
+      income: number;
+      expense: number;
+      economy: number;
+      economy_percentage: number;
+    };
+  } {
+    const incomeTotal = statistics.reduce((acc, cur) => {
+      return acc + cur.income;
+    }, 0);
+    const expenseTotal = statistics.reduce((acc, cur) => {
+      return acc + cur.expense;
+    }, 0);
+    const economyTotal = incomeTotal - expenseTotal;
+    const economy_percentageTotal = (economyTotal / incomeTotal) * 100;
+    const average = {
+      income: incomeTotal / statistics.length,
+      expense: expenseTotal / statistics.length,
+      economy: economyTotal / statistics.length,
+      economy_percentage: economy_percentageTotal / statistics.length,
+    };
+    return {
+      total: {
+        income: incomeTotal,
+        expense: expenseTotal,
+        economy: economyTotal,
+        economy_percentage: economy_percentageTotal,
+      },
+      average,
+    };
+  }
+
   constructor(private http: HttpClient) {}
 }

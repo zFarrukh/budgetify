@@ -61,6 +61,22 @@
                   <td>{{ monthlyStat.economy_percentage }}</td>
                 </tr>
               </tbody>
+              <tfoot *ngIf="total">
+                <tr>
+                  <th>Total:</th>
+                  <th>{{ total.income.toFixed(2) }}</th>
+                  <th>{{ total.expense.toFixed(2) }}</th>
+                  <th>{{ total.economy.toFixed(2) }}</th>
+                  <th>{{ total.economy_percentage.toFixed(2) }}</th>
+                </tr>
+                <tr>
+                  <th>Average:</th>
+                  <th>{{ average.income.toFixed(2) }}</th>
+                  <th>{{ average.expense.toFixed(2) }}</th>
+                  <th>{{ average.economy.toFixed(2) }}</th>
+                  <th>{{ average.economy_percentage.toFixed(2) }}</th>
+                </tr>
+              </tfoot>
             </table>
           </div>
           <div class="stats__category" *ngIf="isCategoryStatistics">

@@ -16,6 +16,18 @@ export class StatisticsPageComponent implements OnInit {
   categoryStatistics: ICategoryStatistics[] = [];
   account_id = '';
   isCategoryStatistics = false;
+  total!: {
+    income: number;
+    expense: number;
+    economy: number;
+    economy_percentage: number;
+  };
+  average!: {
+    income: number;
+    expense: number;
+    economy: number;
+    economy_percentage: number;
+  };
 
   fetchData() {
     this.statisticsService
@@ -34,6 +46,10 @@ export class StatisticsPageComponent implements OnInit {
       })
       .subscribe((data) => {
         this.monthlyStatistics = data;
+        const { total, average } =
+          this.statisticsService.getTotalAndAverageStatistics(data);
+        this.total = total;
+        this.average = average;
       });
   }
 
@@ -69,6 +85,10 @@ export class StatisticsPageComponent implements OnInit {
         .getMonthlyStatistics(this.account_id)
         .subscribe((statistics) => {
           this.monthlyStatistics = statistics;
+          const { total, average } =
+            this.statisticsService.getTotalAndAverageStatistics(statistics);
+          this.total = total;
+          this.average = average;
         });
       this.statisticsService
         .getCategoryStatistics(this.account_id)
@@ -81,6 +101,10 @@ export class StatisticsPageComponent implements OnInit {
         .getMonthlyStatistics(this.account_id)
         .subscribe((statistics) => {
           this.monthlyStatistics = statistics;
+          const { total, average } =
+            this.statisticsService.getTotalAndAverageStatistics(statistics);
+          this.total = total;
+          this.average = average;
         });
       this.statisticsService
         .getCategoryStatistics(this.account_id)
