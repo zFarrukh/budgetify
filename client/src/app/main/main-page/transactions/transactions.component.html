@@ -47,7 +47,11 @@
         <span>Expense</span>
       </div>
       <div class="transaction__aside add">
-        <button type="button" class="transaction__add-button">
+        <button
+          type="button"
+          class="transaction__add-button"
+          (click)="openAddTransaction()"
+        >
           <mat-icon class="transaction__icon">add</mat-icon></button
         ><span>Add Transaction</span>
       </div>
@@ -64,3 +68,4 @@
   [currency]="currency"
   (deletedTransaction)="onDeleteTransaction($event)"
 ></app-transaction-detail>
+<app-transaction-edit> </app-transaction-edit>

@@ -9,7 +9,9 @@
         <div class="transaction__header-title">
           <h1>Transaction Information</h1>
           <div class="transaction__button-group">
-            <button><mat-icon>edit</mat-icon></button>
+            <button (click)="onEditTransaction()">
+              <mat-icon>edit</mat-icon>
+            </button>
             <button (click)="onDeleteTransaction()">
               <mat-icon>delete</mat-icon>
             </button>

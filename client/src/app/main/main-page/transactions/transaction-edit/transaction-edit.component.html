@@ -1,1 +1,49 @@
-<p>transaction-edit works!</p>
+<mat-drawer-container
+  class="transaction"
+  autosize
+  [ngClass]="open ? '' : 'display-none'"
+>
+  <mat-drawer #drawer class="transaction__sidenav" mode="side" position="end">
+    <div class="transaction__content">
+      <div class="transaction__header">
+        <div class="transaction__header-title">
+          <h1>{{ isEditMode ? 'Edit transaction' : 'Add transaction' }}</h1>
+          <div class="transaction__button-group">
+            <button>
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button>
+              <mat-icon>delete</mat-icon>
+            </button>
+            <button (click)="onClose()"><mat-icon>close</mat-icon></button>
+          </div>
+        </div>
+        <div class="transaction__amount">
+          <div class="transaction__type">
+            <mat-icon class="transaction__icon income">arrow_downward</mat-icon>
+            <span>Income</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="transaction__body">
+        <div class="transaction__body-title">
+          <h2>Title</h2>
+        </div>
+        <div>
+          <div class="transaction__category">Category</div>
+        </div>
+        <div class="transaction__table">
+          <table class="table">
+            <tbody>
+              <tr>
+                <th scope="row">Payment Date:</th>
+                <td>Data</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </mat-drawer>
+</mat-drawer-container>

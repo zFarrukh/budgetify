@@ -18,6 +18,10 @@ export class TransactionsComponent implements OnInit {
     this.transactionsService.selectedTransaction.next(transaction);
   }
 
+  openAddTransaction() {
+    this.transactionsService.addTransaction.next(true);
+  }
+
   onDeleteTransaction(transaction: ITransaction) {
     this.transactionsService.deleteTransactionById(transaction._id).subscribe({
       next: (res: ITransaction) => {
