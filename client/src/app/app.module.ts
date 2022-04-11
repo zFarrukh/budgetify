@@ -20,6 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
         tokenGetter: () => {
           return localStorage.getItem('token');
         },
+        allowedDomains: ['localhost:3000'],
       },
     }),
     AppRoutingModule,

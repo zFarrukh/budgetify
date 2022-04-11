@@ -1,0 +1,60 @@
+<div class="transactions-container">
+  <div class="row">
+    <div class="col-9">
+      <div class="transactions__wrapper">
+        <div
+          class="transaction"
+          *ngFor="let transaction of transactions"
+          (click)="onSelectTransaction(transaction)"
+        >
+          <div class="transaction__category">
+            <span>{{ transaction.category | uppercase }}</span>
+          </div>
+          <div class="transaction__content">
+            <div class="transaction__header">
+              <h2 class="transaction__title">{{ transaction.title }}</h2>
+              <span class="transaction__amount" [ngClass]="transaction.type"
+                >{{ transaction.amount.toFixed(2) }} {{ currency }}</span
+              >
+            </div>
+            <div class="transaction__footer">
+              <mat-icon
+                class="transaction__icon"
+                [ngClass]="transaction.type"
+                >{{
+                  transaction.type === 'expense'
+                    ? 'arrow_upward'
+                    : 'arrow_downward'
+                }}</mat-icon
+              >
+              <span>{{ transaction.type }}</span>
+              <span> {{ transaction.date_of_creation | date }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="transaction__aside type">
+        <mat-icon class="transaction__icon income">arrow_downward</mat-icon>
+        <span>Income</span>
+      </div>
+      <div class="transaction__aside type">
+        <mat-icon class="transaction__icon expense">arrow_upward</mat-icon>
+        <span>Expense</span>
+      </div>
+      <div class="transaction__aside add">
+        <button type="button" class="transaction__add-button">
+          <mat-icon class="transaction__icon">add</mat-icon></button
+        ><span>Add Transaction</span>
+      </div>
+      <div class="transaction__aside add">
+        <button type="button" class="transaction__add-button">
+          <mat-icon class="transaction__icon">add</mat-icon></button
+        ><span>Add Account</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-transaction-detail [currency]="currency"></app-transaction-detail>

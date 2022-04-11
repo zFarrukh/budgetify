@@ -10,6 +10,10 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 })
 export class AuthService {
   constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {}
+  user: User | null = null;
+  get myUser() {
+    return this.user;
+  }
 
   login(email: string, password: string): Observable<User> {
     return this.http
@@ -26,6 +30,7 @@ export class AuthService {
 
   private setSession(data: User): void {
     localStorage.setItem('token', data.token);
+    this.user = data;
   }
 
   public isLoggedIn(): boolean {
@@ -39,5 +44,6 @@ export class AuthService {
 
   public logout(): void {
     localStorage.removeItem('token');
+    this.user = null;
   }
 }
