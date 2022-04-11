@@ -25,12 +25,14 @@ export class TransactionsComponent implements OnInit {
   ngOnInit(): void {
     this.accountService.selectAccount.subscribe({
       next: (account: IAccount) => {
-        this.transactionsService.getTransactions(account._id).subscribe({
-          next: (res: ITransaction[]) => {
-            this.transactions = res;
-            this.currency = account.currency;
-          },
-        });
+        if (account) {
+          this.transactionsService.getTransactions(account._id).subscribe({
+            next: (res: ITransaction[]) => {
+              this.transactions = res;
+              this.currency = account.currency;
+            },
+          });
+        }
       },
     });
   }
