@@ -35,7 +35,7 @@ export class TransactionDetailComponent implements OnInit {
 
   onEditTransaction(): void {
     if (this.transaction) {
-      this.transactionsService.editTransaction.next(this.transaction);
+      this.transactionsService.editTransactionMode.next(this.transaction);
       this.drawer.close();
       this.transaction = null;
     }

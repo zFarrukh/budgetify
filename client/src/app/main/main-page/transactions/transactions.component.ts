@@ -19,7 +19,7 @@ export class TransactionsComponent implements OnInit {
   }
 
   openAddTransaction() {
-    this.transactionsService.addTransaction.next(true);
+    this.transactionsService.addTransactionMode.next(true);
   }
 
   onDeleteTransaction(transaction: ITransaction) {
@@ -34,6 +34,29 @@ export class TransactionsComponent implements OnInit {
         }, 2000);
       },
     });
+  }
+
+  addTransaction(transaction: ITransaction) {
+    this.transactionsService.addTransaction(transaction).subscribe({
+      next: (res: ITransaction) => {
+        this.transactions.push(res);
+      },
+    });
+  }
+
+  updateTransaction(transaction: ITransaction) {
+    this.transactionsService
+      .updateTransaction(transaction._id, transaction)
+      .subscribe({
+        next: (res: ITransaction) => {
+          this.transactions = this.transactions.map((item) => {
+            if (item._id === transaction._id) {
+              return res;
+            }
+            return item;
+          });
+        },
+      });
   }
 
   constructor(

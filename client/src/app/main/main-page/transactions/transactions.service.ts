@@ -10,8 +10,25 @@ import { environment } from 'src/environments/environment';
 export class TransactionsService {
   public transactions: ITransaction[] = [];
   public selectedTransaction = new Subject<ITransaction>();
-  public editTransaction = new Subject<ITransaction>();
-  public addTransaction = new Subject<boolean>();
+  public editTransactionMode = new Subject<ITransaction>();
+  public addTransactionMode = new Subject<boolean>();
+
+  addTransaction(transaction: ITransaction): Observable<ITransaction> {
+    return this.http.post<ITransaction>(
+      `${environment.API_URL}/transactions`,
+      transaction
+    );
+  }
+
+  updateTransaction(
+    id: string,
+    transaction: ITransaction
+  ): Observable<ITransaction> {
+    return this.http.put<ITransaction>(
+      `${environment.API_URL}/transactions/${id}`,
+      transaction
+    );
+  }
 
   getTransactions(account_id: string): Observable<ITransaction[]> {
     return this.http

@@ -68,4 +68,8 @@
   [currency]="currency"
   (deletedTransaction)="onDeleteTransaction($event)"
 ></app-transaction-detail>
-<app-transaction-edit> </app-transaction-edit>
+<app-transaction-edit
+  (addTransaction)="addTransaction($event)"
+  (updateTransaction)="updateTransaction($event)"
+>
+</app-transaction-edit>

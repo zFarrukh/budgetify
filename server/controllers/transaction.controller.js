@@ -111,16 +111,20 @@ const updateTransactionById = async (req, res) => {
     await Account.findByIdAndUpdate(transaction.account_id, {
       amount: newAmount,
     });
-    await Transaction.findByIdAndUpdate(id, {
-      title,
-      amount,
-      category,
-      description,
-      date_of_update: new Date(),
-      type,
-    });
+    const updatedTransaction = await Transaction.findByIdAndUpdate(
+      id,
+      {
+        title,
+        amount,
+        category,
+        description,
+        date_of_update: new Date(),
+        type,
+      },
+      { new: true }
+    );
 
-    res.json(transaction);
+    res.json(updatedTransaction);
   } catch (err) {
     res.status(400).json({ error: 'Bad request' });
   }
