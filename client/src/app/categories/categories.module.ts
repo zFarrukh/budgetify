@@ -5,6 +5,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../auth/auth.guard';
 import { LayoutModule } from '../layout/layout.module';
 import { MatIconModule } from '@angular/material/icon';
+import { CategoryItemComponent } from './categories-page/category-item/category-item.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
   {
@@ -15,12 +17,13 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [CategoriesPageComponent],
+  declarations: [CategoriesPageComponent, CategoryItemComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
     LayoutModule,
     MatIconModule,
+    ReactiveFormsModule,
   ],
 })
 export class CategoriesModule {}

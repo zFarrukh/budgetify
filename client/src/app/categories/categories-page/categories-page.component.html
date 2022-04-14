@@ -3,23 +3,12 @@
   <div class="row">
     <div class="col-9">
       <div class="categories-container">
-        <div
-          class="category"
+        <app-category-item
           *ngFor="let category of categories"
-          [ngClass]="category.type"
-        >
-          <div class="category__title">
-            {{ category.title }}
-          </div>
-          <div class="category__button-group">
-            <button>
-              <mat-icon class="category__icon">edit</mat-icon>
-            </button>
-            <button>
-              <mat-icon class="category__icon">delete</mat-icon>
-            </button>
-          </div>
-        </div>
+          [category]="category"
+          (delete)="onDeleteCategory($event)"
+          (update)="onUpdateCategory($event)"
+        ></app-category-item>
       </div>
     </div>
     <div class="col-3"></div>

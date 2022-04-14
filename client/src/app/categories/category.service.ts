@@ -36,11 +36,12 @@ export class CategoryService {
       );
   }
 
-  updateCategoryById(id: string, payload: ICategory): Observable<ICategory> {
+  updateCategoryById(
+    id: string,
+    payload: { title: string }
+  ): Observable<ICategory> {
     return this.http
-      .put<ICategory>(`${environment.API_URL}/categories/${id}`, {
-        payload,
-      })
+      .put<ICategory>(`${environment.API_URL}/categories/${id}`, payload)
       .pipe(
         tap({
           next: (res: ICategory) => {
