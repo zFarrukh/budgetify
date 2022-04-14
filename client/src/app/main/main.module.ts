@@ -10,6 +10,8 @@ import { TransactionsComponent } from './main-page/transactions/transactions.com
 import { SharedModule } from '../shared/shared.module';
 import { TransactionDetailComponent } from './main-page/transactions/transaction-detail/transaction-detail.component';
 import { TransactionEditComponent } from './main-page/transactions/transaction-edit/transaction-edit.component';
+import { AccontDetailComponent } from './main-page/accont-detail/accont-detail.component';
+import { AccontEditComponent } from './main-page/accont-edit/accont-edit.component';
 
 const routes: Routes = [
   {
@@ -36,6 +38,8 @@ const routes: Routes = [
     TransactionsComponent,
     TransactionDetailComponent,
     TransactionEditComponent,
+    AccontDetailComponent,
+    AccontEditComponent,
   ],
   imports: [
     CommonModule,

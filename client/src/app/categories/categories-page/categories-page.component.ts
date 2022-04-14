@@ -41,7 +41,7 @@ export class CategoriesPageComponent implements OnInit {
 
   onAddCategory(payload: { title: string; type: string }) {
     this.categoryService.addCategory(payload).subscribe({
-      next: (res: ICategory) => {
+      next: () => {
         this.categoryService.getCategories().subscribe({
           next: (categories: ICategory[]) => {
             this.categories = categories;
