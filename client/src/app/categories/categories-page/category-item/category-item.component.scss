@@ -17,6 +17,18 @@
     display: flex;
     align-items: center;
     margin-right: 0.5rem;
+    border: none;
+    border-bottom: 1px solid #eceded;
+    background: inherit;
+    width: 120px;
+
+    &.edit {
+      border-bottom: 1px solid #000000;
+    }
+
+    &:focus {
+      outline: none;
+    }
   }
 
   &__button-group {

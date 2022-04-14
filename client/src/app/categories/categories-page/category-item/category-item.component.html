@@ -4,6 +4,7 @@
       class="category__title"
       [value]="category.title"
       formControlName="title"
+      [ngClass]="isEditMode ? 'edit' : ''"
     />
   </form>
 
