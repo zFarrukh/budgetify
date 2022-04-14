@@ -28,7 +28,7 @@ export class TransactionEditComponent implements OnInit {
   @ViewChild('drawer') drawer: any;
   open = false;
   transactionForm = new FormGroup({
-    type: new FormControl(null, Validators.required),
+    type: new FormControl('expense', Validators.required),
     amount: new FormControl(null, [Validators.required, Validators.min(0.01)]),
     description: new FormControl(''),
     category: new FormControl(null, [Validators.required]),
