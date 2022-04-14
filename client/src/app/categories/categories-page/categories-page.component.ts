@@ -35,6 +35,22 @@ export class CategoriesPageComponent implements OnInit {
     });
   }
 
+  openAddCategory() {
+    this.categoryService.addCategoryMode.next(true);
+  }
+
+  onAddCategory(payload: { title: string; type: string }) {
+    this.categoryService.addCategory(payload).subscribe({
+      next: (res: ICategory) => {
+        this.categoryService.getCategories().subscribe({
+          next: (categories: ICategory[]) => {
+            this.categories = categories;
+          },
+        });
+      },
+    });
+  }
+
   ngOnInit(): void {
     this.categoryService.getCategories().subscribe({
       next: (res: ICategory[]) => {

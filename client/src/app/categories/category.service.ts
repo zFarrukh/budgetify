@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Observable, Subject, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ICategory } from './category.model';
 
@@ -9,6 +9,7 @@ import { ICategory } from './category.model';
 })
 export class CategoryService {
   public categories: ICategory[] = [];
+  public addCategoryMode = new Subject<boolean>();
 
   getCategories(): Observable<ICategory[]> {
     return this.http
@@ -56,11 +57,9 @@ export class CategoryService {
       );
   }
 
-  addCategory(payload: ICategory): Observable<ICategory> {
+  addCategory(payload: { title: string; type: string }): Observable<ICategory> {
     return this.http
-      .post<ICategory>(`${environment.API_URL}/categories`, {
-        payload,
-      })
+      .post<ICategory>(`${environment.API_URL}/categories`, payload)
       .pipe(
         tap({
           next: (res: ICategory) => {

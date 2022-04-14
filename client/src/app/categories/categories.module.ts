@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { CategoryItemComponent } from './categories-page/category-item/category-item.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CategoryAddComponent } from './categories-page/category-add/category-add.component';
+import { SharedModule } from '../shared/shared.module';
 
 const routes: Routes = [
   {
@@ -18,13 +19,18 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [CategoriesPageComponent, CategoryItemComponent, CategoryAddComponent],
+  declarations: [
+    CategoriesPageComponent,
+    CategoryItemComponent,
+    CategoryAddComponent,
+  ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
     LayoutModule,
     MatIconModule,
     ReactiveFormsModule,
+    SharedModule,
   ],
 })
 export class CategoriesModule {}
