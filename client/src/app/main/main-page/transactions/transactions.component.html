@@ -56,9 +56,23 @@
         ><span>Add Transaction</span>
       </div>
       <div class="transaction__aside add">
-        <button type="button" class="transaction__add-button">
+        <button
+          type="button"
+          class="transaction__add-button"
+          (click)="openAddAccount()"
+        >
           <mat-icon class="transaction__icon">add</mat-icon></button
         ><span>Add Account</span>
+      </div>
+      <div class="transaction__aside add">
+        <button
+          type="button"
+          class="transaction__add-button"
+          (click)="openAccountDetail()"
+          *ngIf="selectedAccount"
+        >
+          <mat-icon class="transaction__icon">add</mat-icon></button
+        ><span>Account Detail</span>
       </div>
     </div>
   </div>
@@ -73,3 +87,5 @@
   (updateTransaction)="updateTransaction($event)"
 >
 </app-transaction-edit>
+<app-account-edit (addAccount)="addAccount($event)"></app-account-edit>
+<app-account-detail></app-account-detail>

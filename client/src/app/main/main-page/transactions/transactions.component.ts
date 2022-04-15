@@ -11,6 +11,7 @@ import { TransactionsService } from './transactions.service';
 })
 export class TransactionsComponent implements OnInit {
   transactions: ITransaction[] = this.transactionsService.transactions;
+  selectedAccount!: IAccount;
   currency = '';
   isDeletedTransaction = false;
 
@@ -20,6 +21,14 @@ export class TransactionsComponent implements OnInit {
 
   openAddTransaction() {
     this.transactionsService.addTransactionMode.next(true);
+  }
+
+  openAddAccount() {
+    this.accountService.addAccountMode.next(true);
+  }
+
+  openAccountDetail() {
+    this.accountService.accountDetail.next(this.selectedAccount);
   }
 
   onDeleteTransaction(transaction: ITransaction) {
@@ -40,6 +49,14 @@ export class TransactionsComponent implements OnInit {
     this.transactionsService.addTransaction(transaction).subscribe({
       next: (res: ITransaction) => {
         this.transactions.push(res);
+      },
+    });
+  }
+
+  addAccount(account: IAccount) {
+    this.accountService.addAccount(account).subscribe({
+      next: (res: IAccount) => {
+        this.accountService.selectAccount.next(res);
       },
     });
   }
@@ -71,6 +88,7 @@ export class TransactionsComponent implements OnInit {
           next: (res: ITransaction[]) => {
             this.transactions = res;
             this.currency = account.currency;
+            this.selectedAccount = account;
           },
         });
       },

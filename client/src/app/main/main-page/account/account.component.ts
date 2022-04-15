@@ -18,7 +18,6 @@ export class AccountComponent implements OnInit {
     }
     this.selectedAccount = account;
   }
-
   constructor(private accountService: AccountService) {}
 
   ngOnInit(): void {
@@ -26,6 +25,26 @@ export class AccountComponent implements OnInit {
       next: (accounts) => {
         this.accounts = accounts;
         this.selectedAccount = accounts[0];
+      },
+    });
+
+    this.accountService.selectAccount.subscribe({
+      next: (res) => {
+        this.selectedAccount = res;
+      },
+    });
+
+    this.accountService.deleteAccount.subscribe({
+      next: (res) => {
+        this.accounts = this.accounts.filter((acc) => acc._id !== res._id);
+        this.selectedAccount = this.accounts[0];
+      },
+    });
+
+    this.accountService.updateAccount.subscribe({
+      next: (res) => {
+        const index = this.accounts.findIndex((acc) => acc._id === res._id);
+        this.accounts[index] = res;
       },
     });
   }
