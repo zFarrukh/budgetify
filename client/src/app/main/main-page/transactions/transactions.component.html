@@ -66,10 +66,10 @@
       </div>
       <div class="transaction__aside add">
         <button
+          *ngIf="selectedAccount"
           type="button"
           class="transaction__add-button"
           (click)="openAccountDetail()"
-          *ngIf="selectedAccount"
         >
           <mat-icon class="transaction__icon">add</mat-icon></button
         ><span>Account Detail</span>
