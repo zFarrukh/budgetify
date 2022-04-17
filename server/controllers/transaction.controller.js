@@ -17,6 +17,7 @@ const addTransaction = async (req, res) => {
     } else {
       newAmount = account.amount - amount;
     }
+    if (newAmount < 0) throw new Error('Amount could not be lower than 0');
     const transaction = new Transaction({
       title,
       amount,
