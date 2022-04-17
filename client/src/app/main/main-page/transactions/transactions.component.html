@@ -64,9 +64,8 @@
           <mat-icon class="transaction__icon">add</mat-icon></button
         ><span>Add Account</span>
       </div>
-      <div class="transaction__aside add">
+      <div class="transaction__aside add" *ngIf="selectedAccount">
         <button
-          *ngIf="selectedAccount"
           type="button"
           class="transaction__add-button"
           (click)="openAccountDetail()"

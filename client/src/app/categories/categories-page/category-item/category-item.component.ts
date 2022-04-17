@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 import { ICategory } from '../../category.model';
 
 @Component({
@@ -19,6 +21,23 @@ export class CategoryItemComponent implements OnInit {
     ]),
   });
 
+  openDialog(id: string) {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '300px',
+      data: {
+        title: 'Category',
+        message: 'Are you sure you want to delete category?',
+        id: id,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((id) => {
+      if (id) {
+        this.onDeleteCategory(id);
+      }
+    });
+  }
+
   onDeleteCategory(id: string) {
     this.delete.emit(id);
   }
@@ -36,6 +55,8 @@ export class CategoryItemComponent implements OnInit {
     });
     this.categoryForm.controls['title'].disable();
   }
+
+  constructor(private dialog: MatDialog) {}
 
   ngOnInit(): void {
     if (this.category && this.category.title) {

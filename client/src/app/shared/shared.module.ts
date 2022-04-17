@@ -11,9 +11,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDialogModule } from '@angular/material/dialog';
+import { DialogComponent } from './dialog/dialog.component';
 
 @NgModule({
-  declarations: [],
   imports: [
     CommonModule,
     MatInputModule,
@@ -27,6 +28,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatNativeDateModule,
     MatRadioModule,
     MatSelectModule,
+    MatDialogModule,
   ],
   exports: [
     MatInputModule,
@@ -40,6 +42,10 @@ import { MatSelectModule } from '@angular/material/select';
     MatNativeDateModule,
     MatRadioModule,
     MatSelectModule,
+    MatDialogModule,
+  ],
+  declarations: [
+    DialogComponent
   ],
 })
 export class SharedModule {}

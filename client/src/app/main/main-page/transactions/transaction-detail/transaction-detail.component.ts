@@ -6,6 +6,8 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 import { ITransaction } from '../transaction.model';
 import { TransactionsService } from '../transactions.service';
 
@@ -25,6 +27,25 @@ export class TransactionDetailComponent implements OnInit {
     this.transaction = null;
   }
 
+  openDialog(): void {
+    if (this.transaction) {
+      const dialogRef = this.dialog.open(DialogComponent, {
+        width: '300px',
+        data: {
+          title: 'transaction',
+          message: 'Are you sure you want to delete transaction?',
+          id: this.transaction._id,
+        },
+      });
+
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.onDeleteTransaction();
+        }
+      });
+    }
+  }
+
   onDeleteTransaction(): void {
     if (this.transaction) {
       this.deletedTransaction.emit(this.transaction);
@@ -41,7 +62,10 @@ export class TransactionDetailComponent implements OnInit {
     }
   }
 
-  constructor(private transactionsService: TransactionsService) {}
+  constructor(
+    private transactionsService: TransactionsService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.transactionsService.selectedTransaction.subscribe({

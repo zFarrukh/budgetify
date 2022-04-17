@@ -15,7 +15,7 @@
     <button *ngIf="isEditMode" (click)="onUpdateCategory()">
       <mat-icon class="category__icon">check</mat-icon>
     </button>
-    <button (click)="onDeleteCategory(category._id)">
+    <button (click)="openDialog(category._id)">
       <mat-icon class="category__icon">delete</mat-icon>
     </button>
   </div>
