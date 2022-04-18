@@ -12,6 +12,14 @@ export class CategoriesPageComponent implements OnInit {
 
   constructor(private categoryService: CategoryService) {}
 
+  getCategories() {
+    this.categoryService.getCategories().subscribe({
+      next: (categories: ICategory[]) => {
+        this.categories = categories;
+      },
+    });
+  }
+
   onDeleteCategory(id: string) {
     this.categoryService.deleteCategoryById(id).subscribe({
       next: (res) => {
@@ -42,20 +50,12 @@ export class CategoriesPageComponent implements OnInit {
   onAddCategory(payload: { title: string; type: string }) {
     this.categoryService.addCategory(payload).subscribe({
       next: () => {
-        this.categoryService.getCategories().subscribe({
-          next: (categories: ICategory[]) => {
-            this.categories = categories;
-          },
-        });
+        this.getCategories();
       },
     });
   }
 
   ngOnInit(): void {
-    this.categoryService.getCategories().subscribe({
-      next: (res: ICategory[]) => {
-        this.categories = res;
-      },
-    });
+    this.getCategories();
   }
 }

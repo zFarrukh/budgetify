@@ -2,9 +2,8 @@
   <form [formGroup]="categoryForm">
     <input
       class="category__title"
-      [value]="category.title"
       formControlName="title"
-      [ngClass]="isEditMode ? 'edit' : ''"
+      [class.edit]="isEditMode"
     />
   </form>
 
