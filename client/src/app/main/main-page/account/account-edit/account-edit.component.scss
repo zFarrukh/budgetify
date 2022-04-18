@@ -1,12 +1,7 @@
 .account {
-  position: fixed;
-  top: 0;
-  right: 0;
-  background-color: black;
-  width: 100vw;
-  z-index: 10;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  &__sidenav {
+    position: fixed;
+  }
 
   &__content {
     padding: 2rem 3rem;
@@ -79,6 +74,13 @@
   }
 }
 
-.display-none {
-  display: none;
+.bg {
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: black;
+  width: 100vw;
+  z-index: 1;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
 }

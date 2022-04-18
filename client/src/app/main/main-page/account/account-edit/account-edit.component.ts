@@ -1,10 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ICategory } from 'src/app/categories/category.model';
 import { IAccount } from '../account.model';
@@ -24,7 +18,6 @@ export class AccountEditComponent implements OnInit {
   selectedAccount!: IAccount;
   account: IAccount | null = null;
   isEditMode = false;
-  @ViewChild('drawer') drawer: any;
   open = false;
   accountForm = new FormGroup({
     amount: new FormControl(null, [Validators.required, Validators.min(0.01)]),
@@ -34,7 +27,6 @@ export class AccountEditComponent implements OnInit {
   });
 
   onClose() {
-    this.drawer.close();
     this.account = null;
     this.isEditMode = false;
     this.open = false;
@@ -75,9 +67,6 @@ export class AccountEditComponent implements OnInit {
           currency: account.currency,
         });
         this.open = true;
-        setTimeout(() => {
-          this.drawer.open();
-        }, 0);
       },
     });
 
@@ -86,9 +75,6 @@ export class AccountEditComponent implements OnInit {
         this.accountForm.reset();
         this.isEditMode = false;
         this.open = true;
-        setTimeout(() => {
-          this.drawer.open();
-        }, 0);
       },
     });
 

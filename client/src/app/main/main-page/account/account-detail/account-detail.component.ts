@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 import { IAccount } from '../account.model';
@@ -11,11 +11,9 @@ import { AccountService } from '../account.service';
 })
 export class AccountDetailComponent implements OnInit {
   @Input() currency!: string;
-  @ViewChild('drawer') drawer: any;
   account: IAccount | null = null;
   selectedAccount: IAccount | null = null;
   onClose(): void {
-    this.drawer.close();
     this.account = null;
   }
 
@@ -23,7 +21,6 @@ export class AccountDetailComponent implements OnInit {
     if (this.account) {
       this.accountService.deleteAccount.next(this.account);
       this.accountService.deleteAccountById(this.account._id).subscribe();
-      this.drawer.close();
       this.account = null;
     }
   }
@@ -50,7 +47,6 @@ export class AccountDetailComponent implements OnInit {
   onEditAccount(): void {
     if (this.account) {
       this.accountService.editAccountMode.next(this.account);
-      this.drawer.close();
       this.account = null;
     }
   }
@@ -64,9 +60,6 @@ export class AccountDetailComponent implements OnInit {
     this.accountService.accountDetail.subscribe({
       next: () => {
         this.account = this.selectedAccount;
-        setTimeout(() => {
-          this.drawer.open();
-        }, 0);
       },
     });
 
