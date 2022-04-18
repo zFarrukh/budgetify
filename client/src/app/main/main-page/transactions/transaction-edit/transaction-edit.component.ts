@@ -1,5 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntilDestroy } from '@ngneat/until-destroy';
+import { Subscription } from 'rxjs';
 import { ICategory } from 'src/app/categories/category.model';
 import { CategoryService } from 'src/app/categories/category.service';
 import { IAccount } from '../../account/account.model';
@@ -12,9 +14,11 @@ import { TransactionsService } from '../transactions.service';
   templateUrl: './transaction-edit.component.html',
   styleUrls: ['./transaction-edit.component.scss'],
 })
+@UntilDestroy({ checkProperties: true })
 export class TransactionEditComponent implements OnInit {
   @Output() updateTransaction = new EventEmitter<ITransaction>();
   @Output() addTransaction = new EventEmitter<ITransaction>();
+  subscription: Subscription = new Subscription();
   transaction!: ITransaction | null;
   categories!: ICategory[] | null;
   selectedAccount!: IAccount;
@@ -60,38 +64,46 @@ export class TransactionEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.transactionsService.editTransactionMode.subscribe({
-      next: (transaction) => {
-        this.transaction = transaction;
-        this.isEditMode = true;
-        this.transactionForm.patchValue({
-          type: transaction.type,
-          amount: transaction.amount,
-          description: transaction.description,
-          category: transaction.category,
-          title: transaction.title,
-        });
-        this.open = true;
-      },
-    });
+    this.subscription.add(
+      this.transactionsService.editTransactionMode.subscribe({
+        next: (transaction) => {
+          this.transaction = transaction;
+          this.isEditMode = true;
+          this.transactionForm.patchValue({
+            type: transaction.type,
+            amount: transaction.amount,
+            description: transaction.description,
+            category: transaction.category,
+            title: transaction.title,
+          });
+          this.open = true;
+        },
+      })
+    );
 
-    this.transactionsService.addTransactionMode.subscribe({
-      next: () => {
-        this.isEditMode = false;
-        this.open = true;
-      },
-    });
+    this.subscription.add(
+      this.transactionsService.addTransactionMode.subscribe({
+        next: () => {
+          this.isEditMode = false;
+          this.open = true;
+        },
+      })
+    );
 
-    this.categoryService.getCategories().subscribe({
-      next: (categories) => {
-        this.categories = categories;
-      },
-    });
+    this.subscription.add(
+      this.categoryService.getCategories().subscribe({
+        next: (categories) => {
+          this.categories = categories;
+        },
+      })
+    );
 
-    this.accountService.selectAccount.subscribe({
-      next: (account) => {
-        this.selectedAccount = account;
-      },
-    });
+    this.subscription.add(
+      this.accountService.selectAccount.subscribe({
+        next: (account) => {
+          this.selectedAccount = account;
+        },
+      })
+    );
   }
 }
