@@ -1,10 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ICategory } from 'src/app/categories/category.model';
 import { CategoryService } from 'src/app/categories/category.service';
@@ -25,7 +19,6 @@ export class TransactionEditComponent implements OnInit {
   categories!: ICategory[] | null;
   selectedAccount!: IAccount;
   isEditMode = false;
-  @ViewChild('drawer') drawer: any;
   open = false;
   transactionForm = new FormGroup({
     type: new FormControl('expense', Validators.required),
@@ -36,7 +29,6 @@ export class TransactionEditComponent implements OnInit {
   });
 
   onClose() {
-    this.drawer.close();
     this.transaction = null;
     this.isEditMode = false;
     this.open = false;
@@ -80,19 +72,13 @@ export class TransactionEditComponent implements OnInit {
           title: transaction.title,
         });
         this.open = true;
-        setTimeout(() => {
-          this.drawer.open();
-        }, 0);
       },
     });
 
     this.transactionsService.addTransactionMode.subscribe({
-      next: (isOpen) => {
+      next: () => {
         this.isEditMode = false;
         this.open = true;
-        setTimeout(() => {
-          this.drawer.open();
-        }, 0);
       },
     });
 

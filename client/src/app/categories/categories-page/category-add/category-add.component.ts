@@ -1,10 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CategoryService } from '../../category.service';
 
@@ -15,7 +9,6 @@ import { CategoryService } from '../../category.service';
 })
 export class CategoryAddComponent implements OnInit {
   @Output() addCategory = new EventEmitter();
-  @ViewChild('drawer') drawer: any;
   open = false;
 
   categoryForm = new FormGroup({
@@ -24,7 +17,6 @@ export class CategoryAddComponent implements OnInit {
   });
 
   onClose() {
-    this.drawer.close();
     this.open = false;
     this.categoryForm.reset();
   }
@@ -38,11 +30,8 @@ export class CategoryAddComponent implements OnInit {
 
   ngOnInit(): void {
     this.categoryService.addCategoryMode.subscribe({
-      next: (category) => {
-        setTimeout(() => {
-          this.drawer.open();
-          this.open = true;
-        }, 0);
+      next: () => {
+        this.open = true;
       },
     });
   }
