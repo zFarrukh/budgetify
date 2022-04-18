@@ -1,9 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { UntilDestroy } from '@ngneat/until-destroy';
+import { Subscription } from 'rxjs';
 import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 import { ICategory } from '../../category.model';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-category-item',
   templateUrl: './category-item.component.html',
@@ -14,7 +17,7 @@ export class CategoryItemComponent implements OnInit {
   @Output() delete = new EventEmitter();
   @Output() update = new EventEmitter();
   isEditMode = false;
-
+  subscription: Subscription = new Subscription();
   categoryForm = new FormGroup({
     title: new FormControl({ value: '', disabled: !this.isEditMode }, [
       Validators.required,
@@ -31,11 +34,13 @@ export class CategoryItemComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe((id) => {
-      if (id) {
-        this.onDeleteCategory(id);
-      }
-    });
+    this.subscription.add(
+      dialogRef.afterClosed().subscribe((id) => {
+        if (id) {
+          this.onDeleteCategory(id);
+        }
+      })
+    );
   }
 
   onDeleteCategory(id: string) {
