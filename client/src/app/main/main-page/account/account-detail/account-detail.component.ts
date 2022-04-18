@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { UntilDestroy } from '@ngneat/until-destroy';
+import { Subscription } from 'rxjs';
 import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 import { IAccount } from '../account.model';
 import { AccountService } from '../account.service';
@@ -9,10 +11,12 @@ import { AccountService } from '../account.service';
   templateUrl: './account-detail.component.html',
   styleUrls: ['./account-detail.component.scss'],
 })
+@UntilDestroy({ checkProperties: true })
 export class AccountDetailComponent implements OnInit {
   @Input() currency!: string;
   account: IAccount | null = null;
   selectedAccount: IAccount | null = null;
+  subscription: Subscription = new Subscription();
   onClose(): void {
     this.account = null;
   }
@@ -20,7 +24,9 @@ export class AccountDetailComponent implements OnInit {
   onDeleteAccount(): void {
     if (this.account) {
       this.accountService.deleteAccount.next(this.account);
-      this.accountService.deleteAccountById(this.account._id).subscribe();
+      this.subscription.add(
+        this.accountService.deleteAccountById(this.account._id).subscribe()
+      );
       this.account = null;
     }
   }
@@ -36,11 +42,13 @@ export class AccountDetailComponent implements OnInit {
         },
       });
 
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
-          this.onDeleteAccount();
-        }
-      });
+      this.subscription.add(
+        dialogRef.afterClosed().subscribe((result) => {
+          if (result) {
+            this.onDeleteAccount();
+          }
+        })
+      );
     }
   }
 
@@ -57,16 +65,20 @@ export class AccountDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.accountService.accountDetail.subscribe({
-      next: () => {
-        this.account = this.selectedAccount;
-      },
-    });
+    this.subscription.add(
+      this.accountService.accountDetail.subscribe({
+        next: () => {
+          this.account = this.selectedAccount;
+        },
+      })
+    );
 
-    this.accountService.selectAccount.subscribe({
-      next: (account: IAccount) => {
-        this.selectedAccount = account;
-      },
-    });
+    this.subscription.add(
+      this.accountService.selectAccount.subscribe({
+        next: (account: IAccount) => {
+          this.selectedAccount = account;
+        },
+      })
+    );
   }
 }

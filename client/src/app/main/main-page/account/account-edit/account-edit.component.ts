@@ -5,14 +5,18 @@ import { IAccount } from '../account.model';
 import { AccountService } from '../account.service';
 
 import { currency_list } from '../../../../data/currency';
+import { Subscription } from 'rxjs';
+import { UntilDestroy } from '@ngneat/until-destroy';
 
 @Component({
   selector: 'app-account-edit',
   templateUrl: './account-edit.component.html',
   styleUrls: ['./account-edit.component.scss'],
 })
+@UntilDestroy({ checkProperties: true })
 export class AccountEditComponent implements OnInit {
   @Output() addAccount = new EventEmitter<IAccount>();
+  subscription: Subscription = new Subscription();
   currencies = currency_list;
   categories!: ICategory[] | null;
   selectedAccount!: IAccount;
@@ -37,11 +41,13 @@ export class AccountEditComponent implements OnInit {
     if (this.isEditMode) {
       if (this.account) {
         const payload = this.accountForm.value;
-        this.accountService.updateAccountById(payload).subscribe({
-          next: (res) => {
-            this.accountService.selectAccount.next(res);
-          },
-        });
+        this.subscription.add(
+          this.accountService.updateAccountById(payload).subscribe({
+            next: (res) => {
+              this.accountService.selectAccount.next(res);
+            },
+          })
+        );
         this.onClose();
       }
     } else {
@@ -56,32 +62,38 @@ export class AccountEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.accountService.editAccountMode.subscribe({
-      next: (account) => {
-        this.account = account;
-        this.isEditMode = true;
-        this.accountForm.patchValue({
-          amount: account.amount,
-          description: account.description,
-          title: account.title,
-          currency: account.currency,
-        });
-        this.open = true;
-      },
-    });
+    this.subscription.add(
+      this.accountService.editAccountMode.subscribe({
+        next: (account) => {
+          this.account = account;
+          this.isEditMode = true;
+          this.accountForm.patchValue({
+            amount: account.amount,
+            description: account.description,
+            title: account.title,
+            currency: account.currency,
+          });
+          this.open = true;
+        },
+      })
+    );
 
-    this.accountService.addAccountMode.subscribe({
-      next: () => {
-        this.accountForm.reset();
-        this.isEditMode = false;
-        this.open = true;
-      },
-    });
+    this.subscription.add(
+      this.accountService.addAccountMode.subscribe({
+        next: () => {
+          this.accountForm.reset();
+          this.isEditMode = false;
+          this.open = true;
+        },
+      })
+    );
 
-    this.accountService.selectAccount.subscribe({
-      next: (account) => {
-        this.selectedAccount = account;
-      },
-    });
+    this.subscription.add(
+      this.accountService.selectAccount.subscribe({
+        next: (account) => {
+          this.selectedAccount = account;
+        },
+      })
+    );
   }
 }
