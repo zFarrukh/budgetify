@@ -1,11 +1,4 @@
-<div [class.bg]="open"></div>
-<mat-drawer
-  #drawer
-  class="category__sidenav"
-  mode="side"
-  position="end"
-  [opened]="open"
->
+<div class="category__sidenav">
   <div class="category__content">
     <div class="category__header">
       <div class="category__header-title">
@@ -44,4 +37,11 @@
       </form>
     </div>
   </div>
-</mat-drawer>
+</div>
+
+<!-- <mat-sidenav-container>
+  <mat-sidenav side="end">
+    <ng-content select="my-sidenav-content"></ng-content>
+  </mat-sidenav>
+  <ng-content select="my-main-content"></ng-content>
+</mat-sidenav-container> -->

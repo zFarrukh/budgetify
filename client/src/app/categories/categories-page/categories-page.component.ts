@@ -11,8 +11,13 @@ import { CategoryService } from '../category.service';
   styleUrls: ['./categories-page.component.scss'],
 })
 export class CategoriesPageComponent implements OnInit {
+  open = false;
   categories: ICategory[] = [];
   subscription: Subscription = new Subscription();
+
+  openedChanged(open: boolean) {
+    this.open = open;
+  }
 
   constructor(private categoryService: CategoryService) {}
 
@@ -53,10 +58,6 @@ export class CategoriesPageComponent implements OnInit {
     );
   }
 
-  openAddCategory() {
-    this.categoryService.addCategoryMode.next(true);
-  }
-
   onAddCategory(payload: { title: string; type: string }) {
     this.subscription.add(
       this.categoryService.addCategory(payload).subscribe({
@@ -69,5 +70,10 @@ export class CategoriesPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCategories();
+    this.subscription.add(
+      this.categoryService.closeCategoryMode.subscribe(() => {
+        this.open = false;
+      })
+    );
   }
 }

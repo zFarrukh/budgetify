@@ -1,4 +1,8 @@
 .category {
+  &__sidenav {
+    position: fixed;
+    width: 40vw;
+  }
   &__aside {
     display: flex;
     align-items: center;
@@ -31,4 +35,12 @@
       background-color: #fff;
     }
   }
+}
+
+.mat-drawer-content {
+  min-height: 100vh;
+}
+
+.mat-drawer-container {
+  background-color: inherit;
 }

@@ -8,7 +8,7 @@ import { ICategory } from './category.model';
   providedIn: 'root',
 })
 export class CategoryService {
-  public addCategoryMode = new Subject<boolean>();
+  public closeCategoryMode = new Subject<boolean>();
 
   getCategories(): Observable<ICategory[]> {
     return this.http.get<ICategory[]>(`${environment.API_URL}/categories`, {});

@@ -1,11 +1,12 @@
 .category {
   &__sidenav {
     position: fixed;
+    width: 40vw;
+    z-index: 100;
+    background-color: #fff;
   }
   &__content {
     padding: 2rem 3rem;
-    width: 40vw;
-    z-index: 100;
   }
 
   &__header-title {
