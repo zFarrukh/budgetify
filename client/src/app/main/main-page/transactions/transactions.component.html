@@ -78,14 +78,5 @@
 </div>
 <mat-drawer-container></mat-drawer-container>
 
-<app-transaction-detail
-  [currency]="currency"
-  (deletedTransaction)="onDeleteTransaction($event)"
-></app-transaction-detail>
-<app-transaction-edit
-  (addTransaction)="addTransaction($event)"
-  (updateTransaction)="updateTransaction($event)"
->
-</app-transaction-edit>
 <app-account-edit (addAccount)="addAccount($event)"></app-account-edit>
 <app-account-detail></app-account-detail>

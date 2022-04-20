@@ -1,81 +1,72 @@
-<div [class.bg]="open"></div>
-<mat-drawer
-  #drawer
-  class="transaction__sidenav"
-  mode="side"
-  position="end"
-  [opened]="open"
->
-  <div class="transaction__content">
-    <div class="transaction__header">
-      <div class="transaction__header-title">
-        <h1>{{ isEditMode ? 'Edit transaction' : 'Add transaction' }}</h1>
-        <div class="transaction__button-group">
-          <button (click)="onClose()"><mat-icon>close</mat-icon></button>
-        </div>
+<div class="transaction__content" *ngIf="open">
+  <div class="transaction__header">
+    <div class="transaction__header-title">
+      <h1>{{ isEditMode ? 'Edit transaction' : 'Add transaction' }}</h1>
+      <div class="transaction__button-group">
+        <button (click)="onClose()"><mat-icon>close</mat-icon></button>
       </div>
     </div>
-    <div class="transaction__body">
-      <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
-        <div>
-          <mat-radio-group aria-label="Select an option" formControlName="type">
-            <mat-radio-button value="expense">Expense</mat-radio-button>
-            <mat-radio-button value="income">Income</mat-radio-button>
-          </mat-radio-group>
-        </div>
-        <div>
-          <mat-form-field appearance="outline">
-            <input matInput placeholder="Title" formControlName="title" />
-            <mat-error *ngIf="transactionForm.controls['title'].invalid"
-              >Please enter a title</mat-error
-            >
-          </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field appearance="outline">
-            <mat-label>Select</mat-label>
-            <mat-select formControlName="category">
-              <mat-option
-                *ngFor="let category of categories"
-                [value]="category.title"
-                >{{ category.title }}</mat-option
-              >
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field appearance="outline">
-            <input
-              matInput
-              placeholder="Amount"
-              formControlName="amount"
-              type="number"
-            />
-            <mat-error *ngIf="transactionForm.controls['amount'].invalid"
-              >Please enter an amount</mat-error
-            >
-          </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field appearance="outline">
-            <mat-label>Description</mat-label>
-            <textarea
-              matInput
-              placeholder="Description"
-              formControlName="description"
-            ></textarea>
-          </mat-form-field>
-        </div>
-        <div>
-          <button
-            mat-raised-button
-            color="primary"
-            [disabled]="transactionForm.invalid"
-          >
-            {{ isEditMode ? 'Edit' : 'Add' }}
-          </button>
-        </div>
-      </form>
-    </div>
   </div>
-</mat-drawer>
+  <div class="transaction__body">
+    <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
+      <div>
+        <mat-radio-group aria-label="Select an option" formControlName="type">
+          <mat-radio-button value="expense">Expense</mat-radio-button>
+          <mat-radio-button value="income">Income</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div>
+        <mat-form-field appearance="outline">
+          <input matInput placeholder="Title" formControlName="title" />
+          <mat-error *ngIf="transactionForm.controls['title'].invalid"
+            >Please enter a title</mat-error
+          >
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline">
+          <mat-label>Select</mat-label>
+          <mat-select formControlName="category">
+            <mat-option
+              *ngFor="let category of categories"
+              [value]="category.title"
+              >{{ category.title }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            placeholder="Amount"
+            formControlName="amount"
+            type="number"
+          />
+          <mat-error *ngIf="transactionForm.controls['amount'].invalid"
+            >Please enter an amount</mat-error
+          >
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline">
+          <mat-label>Description</mat-label>
+          <textarea
+            matInput
+            placeholder="Description"
+            formControlName="description"
+          ></textarea>
+        </mat-form-field>
+      </div>
+      <div>
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="transactionForm.invalid"
+        >
+          {{ isEditMode ? 'Edit' : 'Add' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

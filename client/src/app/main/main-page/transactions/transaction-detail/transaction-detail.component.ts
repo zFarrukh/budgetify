@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { Subscription } from 'rxjs';
+import { DrawerService } from 'src/app/main/drawer.service';
 import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 import { ITransaction } from '../transaction.model';
 import { TransactionsService } from '../transactions.service';
@@ -19,6 +20,7 @@ export class TransactionDetailComponent implements OnInit {
   subscription: Subscription = new Subscription();
   onClose(): void {
     this.transaction = null;
+    this.drawerService.isOpen.next(false);
   }
 
   openDialog(): void {
@@ -46,6 +48,7 @@ export class TransactionDetailComponent implements OnInit {
     if (this.transaction) {
       this.deletedTransaction.emit(this.transaction);
       this.transaction = null;
+      this.onClose();
     }
   }
 
@@ -58,7 +61,8 @@ export class TransactionDetailComponent implements OnInit {
 
   constructor(
     private transactionsService: TransactionsService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private drawerService: DrawerService
   ) {}
 
   ngOnInit(): void {

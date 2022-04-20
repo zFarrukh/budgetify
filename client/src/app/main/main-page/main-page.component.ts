@@ -1,8 +1,62 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { DrawerService } from '../drawer.service';
+import { AccountService } from './account/account.service';
+import { ITransaction } from './transactions/transaction.model';
+import { TransactionsService } from './transactions/transactions.service';
 
 @Component({
   selector: 'app-main-page',
   templateUrl: './main-page.component.html',
   styleUrls: ['./main-page.component.scss'],
 })
-export class MainPageComponent {}
+export class MainPageComponent implements OnInit {
+  currency = '';
+  isOpen = false;
+  subscription: Subscription = new Subscription();
+
+  openChange(open: boolean) {
+    this.isOpen = open;
+  }
+
+  onDeleteTransaction(transaction: ITransaction) {
+    this.subscription.add(
+      this.transactionsService
+        .deleteTransactionById(transaction._id)
+        .subscribe()
+    );
+  }
+
+  addTransaction(transaction: ITransaction) {
+    this.subscription.add(
+      this.transactionsService.addTransaction(transaction).subscribe()
+    );
+  }
+
+  updateTransaction(transaction: ITransaction) {
+    this.subscription.add(
+      this.transactionsService
+        .updateTransaction(transaction._id, transaction)
+        .subscribe()
+    );
+  }
+
+  constructor(
+    private accountService: AccountService,
+    private transactionsService: TransactionsService,
+    private drawerService: DrawerService
+  ) {}
+  ngOnInit() {
+    this.accountService.selectAccount.subscribe({
+      next: (account) => {
+        this.currency = account.currency;
+      },
+    });
+
+    this.drawerService.isOpen.subscribe({
+      next: (open) => {
+        this.isOpen = open;
+      },
+    });
+  }
+}

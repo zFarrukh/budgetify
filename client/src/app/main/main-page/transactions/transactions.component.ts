@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { Subscription } from 'rxjs';
+import { DrawerService } from '../../drawer.service';
 import { IAccount } from '../account/account.model';
 import { AccountService } from '../account/account.service';
 import { ITransaction } from './transaction.model';
@@ -13,7 +14,7 @@ import { TransactionsService } from './transactions.service';
 })
 @UntilDestroy({ checkProperties: true })
 export class TransactionsComponent implements OnInit {
-  transactions: ITransaction[] = this.transactionsService.transactions;
+  transactions: ITransaction[] = [];
   selectedAccount!: IAccount;
   currency = '';
   isDeletedTransaction = false;
@@ -21,10 +22,12 @@ export class TransactionsComponent implements OnInit {
 
   onSelectTransaction(transaction: ITransaction) {
     this.transactionsService.selectedTransaction.next(transaction);
+    this.drawerService.isOpen.next(true);
   }
 
   openAddTransaction() {
     this.transactionsService.addTransactionMode.next(true);
+    this.drawerService.isOpen.next(true);
   }
 
   openAddAccount() {
@@ -92,8 +95,11 @@ export class TransactionsComponent implements OnInit {
 
   constructor(
     private transactionsService: TransactionsService,
-    private accountService: AccountService
-  ) {}
+    private accountService: AccountService,
+    private drawerService: DrawerService
+  ) {
+    this.transactions = this.transactionsService.transactions;
+  }
 
   ngOnInit(): void {
     this.subscription.add(
@@ -111,5 +117,11 @@ export class TransactionsComponent implements OnInit {
         },
       })
     );
+
+    this.transactionsService.onChangeTransactions.subscribe({
+      next: (transactions: ITransaction[]) => {
+        this.transactions = transactions;
+      },
+    });
   }
 }

@@ -4,6 +4,7 @@ import { UntilDestroy } from '@ngneat/until-destroy';
 import { Subscription } from 'rxjs';
 import { ICategory } from 'src/app/categories/category.model';
 import { CategoryService } from 'src/app/categories/category.service';
+import { DrawerService } from 'src/app/main/drawer.service';
 import { IAccount } from '../../account/account.model';
 import { AccountService } from '../../account/account.service';
 import { ITransaction } from '../transaction.model';
@@ -25,7 +26,7 @@ export class TransactionEditComponent implements OnInit {
   isEditMode = false;
   open = false;
   transactionForm = new FormGroup({
-    type: new FormControl('expense', Validators.required),
+    type: new FormControl(null, Validators.required),
     amount: new FormControl(null, [Validators.required, Validators.min(0.01)]),
     description: new FormControl(''),
     category: new FormControl(null, [Validators.required]),
@@ -37,6 +38,8 @@ export class TransactionEditComponent implements OnInit {
     this.isEditMode = false;
     this.open = false;
     this.transactionForm.reset();
+    this.transactionForm.markAsUntouched();
+    this.drawerService.isOpen.next(false);
   }
 
   onSubmit() {
@@ -58,7 +61,8 @@ export class TransactionEditComponent implements OnInit {
   constructor(
     private transactionsService: TransactionsService,
     private categoryService: CategoryService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private drawerService: DrawerService
   ) {
     this.selectedAccount = this.accountService.selectedAccount;
   }
