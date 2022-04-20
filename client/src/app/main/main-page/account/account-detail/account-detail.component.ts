@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { Subscription } from 'rxjs';
+import { DrawerService } from 'src/app/main/drawer.service';
 import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 import { IAccount } from '../account.model';
 import { AccountService } from '../account.service';
@@ -19,11 +20,13 @@ export class AccountDetailComponent implements OnInit {
   subscription: Subscription = new Subscription();
   onClose(): void {
     this.account = null;
+    this.drawerService.isOpen.next(false);
   }
 
   onDeleteAccount(): void {
     if (this.account) {
       this.accountService.deleteAccount.next(this.account);
+      this.drawerService.isOpen.next(false);
       this.subscription.add(
         this.accountService.deleteAccountById(this.account._id).subscribe()
       );
@@ -61,7 +64,8 @@ export class AccountDetailComponent implements OnInit {
 
   constructor(
     private accountService: AccountService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private drawerService: DrawerService
   ) {}
 
   ngOnInit(): void {

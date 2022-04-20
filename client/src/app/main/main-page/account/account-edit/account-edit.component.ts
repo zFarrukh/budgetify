@@ -7,6 +7,7 @@ import { AccountService } from '../account.service';
 import { currency_list } from '../../../../data/currency';
 import { Subscription } from 'rxjs';
 import { UntilDestroy } from '@ngneat/until-destroy';
+import { DrawerService } from 'src/app/main/drawer.service';
 
 @Component({
   selector: 'app-account-edit',
@@ -35,6 +36,8 @@ export class AccountEditComponent implements OnInit {
     this.isEditMode = false;
     this.open = false;
     this.accountForm.reset();
+    this.accountForm.markAsUntouched();
+    this.drawerService.isOpen.next(false);
   }
 
   onSubmit() {
@@ -57,7 +60,10 @@ export class AccountEditComponent implements OnInit {
     }
   }
 
-  constructor(private accountService: AccountService) {
+  constructor(
+    private accountService: AccountService,
+    private drawerService: DrawerService
+  ) {
     this.selectedAccount = this.accountService.selectedAccount;
   }
 

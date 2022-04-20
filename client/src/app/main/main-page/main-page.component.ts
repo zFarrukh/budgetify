@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { DrawerService } from '../drawer.service';
+import { IAccount } from './account/account.model';
 import { AccountService } from './account/account.service';
 import { ITransaction } from './transactions/transaction.model';
 import { TransactionsService } from './transactions/transactions.service';
@@ -24,6 +25,16 @@ export class MainPageComponent implements OnInit {
       this.transactionsService
         .deleteTransactionById(transaction._id)
         .subscribe()
+    );
+  }
+
+  addAccount(account: IAccount) {
+    this.subscription.add(
+      this.accountService.addAccount(account).subscribe({
+        next: (res: IAccount) => {
+          this.accountService.selectAccount.next(res);
+        },
+      })
     );
   }
 

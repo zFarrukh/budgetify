@@ -32,10 +32,12 @@ export class TransactionsComponent implements OnInit {
 
   openAddAccount() {
     this.accountService.addAccountMode.next(true);
+    this.drawerService.isOpen.next(true);
   }
 
   openAccountDetail() {
     this.accountService.accountDetail.next(this.selectedAccount);
+    this.drawerService.isOpen.next(true);
   }
 
   onDeleteTransaction(transaction: ITransaction) {
@@ -123,5 +125,19 @@ export class TransactionsComponent implements OnInit {
         this.transactions = transactions;
       },
     });
+
+    this.accountService.onCurrencyChange.subscribe({
+      next: (currency: string) => {
+        this.currency = currency;
+      },
+    });
+
+    if (this.accountService.currency) {
+      this.currency = this.accountService.currency;
+    }
+
+    if (this.accountService.selectedAccount) {
+      this.selectedAccount = this.accountService.selectedAccount;
+    }
   }
 }
