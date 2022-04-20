@@ -120,17 +120,21 @@ export class TransactionsComponent implements OnInit {
       })
     );
 
-    this.transactionsService.onChangeTransactions.subscribe({
-      next: (transactions: ITransaction[]) => {
-        this.transactions = transactions;
-      },
-    });
+    this.subscription.add(
+      this.transactionsService.onChangeTransactions.subscribe({
+        next: (transactions: ITransaction[]) => {
+          this.transactions = transactions;
+        },
+      })
+    );
 
-    this.accountService.onCurrencyChange.subscribe({
-      next: (currency: string) => {
-        this.currency = currency;
-      },
-    });
+    this.subscription.add(
+      this.accountService.onCurrencyChange.subscribe({
+        next: (currency: string) => {
+          this.currency = currency;
+        },
+      })
+    );
 
     if (this.accountService.currency) {
       this.currency = this.accountService.currency;

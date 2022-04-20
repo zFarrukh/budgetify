@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { Subscription } from 'rxjs';
 import { DrawerService } from '../drawer.service';
 import { IAccount } from './account/account.model';
@@ -11,6 +12,7 @@ import { TransactionsService } from './transactions/transactions.service';
   templateUrl: './main-page.component.html',
   styleUrls: ['./main-page.component.scss'],
 })
+@UntilDestroy({ checkProperties: true })
 export class MainPageComponent implements OnInit {
   currency = '';
   isOpen = false;
@@ -58,16 +60,20 @@ export class MainPageComponent implements OnInit {
     private drawerService: DrawerService
   ) {}
   ngOnInit() {
-    this.accountService.selectAccount.subscribe({
-      next: (account) => {
-        this.currency = account.currency;
-      },
-    });
+    this.subscription.add(
+      this.accountService.selectAccount.subscribe({
+        next: (account) => {
+          this.currency = account.currency;
+        },
+      })
+    );
 
-    this.drawerService.isOpen.subscribe({
-      next: (open) => {
-        this.isOpen = open;
-      },
-    });
+    this.subscription.add(
+      this.drawerService.isOpen.subscribe({
+        next: (open) => {
+          this.isOpen = open;
+        },
+      })
+    );
   }
 }
