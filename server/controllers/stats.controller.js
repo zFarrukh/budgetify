@@ -11,7 +11,7 @@ const getCategoryStats = async (req, res) => {
   };
 
   if (fromDate && toDate) {
-    findQuery.date = {
+    findQuery.date_of_creation = {
       $gte: new Date(fromDate),
       $lte: new Date(toDate),
     };
@@ -28,7 +28,7 @@ const getMonthlyStats = async (req, res) => {
   };
 
   if (fromDate && toDate) {
-    findQuery.date = {
+    findQuery.date_of_creation = {
       $gte: new Date(fromDate),
       $lte: new Date(toDate),
     };

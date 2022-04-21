@@ -1,11 +1,12 @@
-.transaction {
+.category {
   &__sidenav {
     position: fixed;
+    width: 40vw;
+    z-index: 100;
+    background-color: #fff;
   }
   &__content {
     padding: 2rem 3rem;
-    width: 40vw;
-    z-index: 100;
   }
 
   &__header-title {
@@ -76,10 +77,11 @@
 .bg {
   position: fixed;
   top: 0;
+  left: 0;
   right: 0;
-  background-color: black;
+  left: 0;
   width: 100vw;
-  z-index: 1;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
 }

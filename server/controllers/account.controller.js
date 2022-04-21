@@ -19,7 +19,7 @@ const addAccount = async (req, res) => {
       currency,
       amount,
       user_id,
-      dateOfCreation: new Date(),
+      date_of_creation: new Date(),
     });
     await account.save();
     res.json(account);
@@ -41,14 +41,17 @@ const deleteAccountById = async (req, res) => {
 const updateAccountById = async (req, res) => {
   try {
     const id = req.params.id;
-    const { title, description, currency, amount } = req.body;
-    const account = await Account.findByIdAndUpdate(id, {
-      title,
-      description,
-      currency,
-      amount,
-      dateOfUpdate: new Date(),
-    });
+    const { title, description, currency } = req.body;
+    const account = await Account.findByIdAndUpdate(
+      id,
+      {
+        title,
+        description,
+        currency,
+        date_of_update: new Date(),
+      },
+      { new: true }
+    );
     res.json(account);
   } catch (err) {
     res.status(400).json({ error: 'Bad request' });

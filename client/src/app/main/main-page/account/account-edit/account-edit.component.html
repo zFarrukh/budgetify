@@ -1,24 +1,18 @@
-<div class="transaction__content" *ngIf="open">
-  <div class="transaction__header">
-    <div class="transaction__header-title">
-      <h1>{{ isEditMode ? 'Edit transaction' : 'Add transaction' }}</h1>
-      <div class="transaction__button-group">
+<div class="account__content" *ngIf="open">
+  <div class="account__header">
+    <div class="account__header-title">
+      <h1>{{ isEditMode ? 'Edit account' : 'Add account' }}</h1>
+      <div class="account__button-group">
         <button (click)="onClose()"><mat-icon>close</mat-icon></button>
       </div>
     </div>
   </div>
-  <div class="transaction__body">
-    <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
-      <div>
-        <mat-radio-group aria-label="Select an option" formControlName="type">
-          <mat-radio-button value="expense">Expense</mat-radio-button>
-          <mat-radio-button value="income">Income</mat-radio-button>
-        </mat-radio-group>
-      </div>
+  <div class="account__body">
+    <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
       <div>
         <mat-form-field appearance="outline">
           <input matInput placeholder="Title" formControlName="title" />
-          <mat-error *ngIf="transactionForm.controls['title'].invalid"
+          <mat-error *ngIf="accountForm.controls['title'].invalid"
             >Please enter a title</mat-error
           >
         </mat-form-field>
@@ -26,16 +20,16 @@
       <div>
         <mat-form-field appearance="outline">
           <mat-label>Select</mat-label>
-          <mat-select formControlName="category">
+          <mat-select formControlName="currency">
             <mat-option
-              *ngFor="let category of categories"
-              [value]="category.title"
-              >{{ category.title }}</mat-option
+              *ngFor="let currency of currencies"
+              [value]="currency.code"
+              >{{ currency.code }}({{ currency.symbol }})</mat-option
             >
           </mat-select>
         </mat-form-field>
       </div>
-      <div>
+      <div *ngIf="!isEditMode">
         <mat-form-field appearance="outline">
           <input
             matInput
@@ -43,7 +37,7 @@
             formControlName="amount"
             type="number"
           />
-          <mat-error *ngIf="transactionForm.controls['amount'].invalid"
+          <mat-error *ngIf="accountForm.controls['amount'].invalid"
             >Please enter an amount</mat-error
           >
         </mat-form-field>
@@ -62,7 +56,7 @@
         <button
           mat-raised-button
           color="primary"
-          [disabled]="transactionForm.invalid"
+          [disabled]="accountForm.invalid"
         >
           {{ isEditMode ? 'Edit' : 'Add' }}
         </button>

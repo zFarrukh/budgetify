@@ -13,7 +13,6 @@ const getAllCategories = async (req, res) => {
 const addCategory = async (req, res) => {
   const { type, title } = req.body;
   const user_id = req.user._id;
-  console.log(req.user);
 
   try {
     const category = new Category({ type, title, user_id });
@@ -39,7 +38,11 @@ const updateCategoryById = async (req, res) => {
   const id = req.params.id;
   const { title, type } = req.body;
   try {
-    const category = await Category.findByIdAndUpdate(id, { title, type });
+    const category = await Category.findByIdAndUpdate(
+      id,
+      { title, type },
+      { new: true }
+    );
     res.json(category);
   } catch (err) {
     res.status(400).json({ error: 'Bad request' });
