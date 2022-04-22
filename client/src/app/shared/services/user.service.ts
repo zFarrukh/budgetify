@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IUser } from './user.model';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root',
@@ -16,5 +17,23 @@ export class UserService {
 
   removeUser(): void {
     this.myUser = null;
+  }
+
+  isAdmin(): boolean {
+    if (this.myUser) {
+      return this.myUser.role === 'admin';
+    }
+    return false;
+  }
+
+  constructor() {
+    const helper = new JwtHelperService();
+
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      const decodedToken = helper.decodeToken(token);
+      this.myUser = decodedToken;
+    }
   }
 }

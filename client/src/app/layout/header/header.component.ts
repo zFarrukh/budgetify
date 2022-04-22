@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/services/auth.service';
+import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +10,11 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 })
 export class HeaderComponent implements OnInit {
   isAdmin = false;
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private userService: UserService,
+    private router: Router
+  ) {}
 
   logout() {
     this.authService.logout();
@@ -17,6 +22,6 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isAdmin = this.authService.isAdmin();
+    this.isAdmin = this.userService.isAdmin();
   }
 }

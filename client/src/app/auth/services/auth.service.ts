@@ -62,12 +62,4 @@ export class AuthService {
       user_id: '',
     };
   }
-
-  public isAdmin(): boolean {
-    if (!this.user) {
-      return false;
-    }
-
-    return this.user.role === 'admin';
-  }
 }
