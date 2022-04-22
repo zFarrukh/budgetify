@@ -63,6 +63,7 @@ export class TransactionEditComponent implements OnInit {
     } else {
       const payload = this.transactionForm.value;
       payload.account_id = this.selectedAccount._id;
+      payload.currency = this.selectedAccount.currency;
       this.addTransaction.emit(payload);
       this.onClose();
     }
