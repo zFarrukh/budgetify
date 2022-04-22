@@ -8,9 +8,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NotFoundComponent } from './not-found/not-found.component';
 import { HttpClientModule } from '@angular/common/http';
+import { AdminComponent } from './admin/admin.component';
 
 @NgModule({
-  declarations: [AppComponent, NotFoundComponent],
+  declarations: [AppComponent, NotFoundComponent, AdminComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
