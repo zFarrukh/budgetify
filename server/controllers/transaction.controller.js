@@ -32,7 +32,7 @@ const addTransaction = async (req, res) => {
     await Account.findByIdAndUpdate(account_id, { amount: newAmount });
     res.json(transaction);
   } catch (err) {
-    res.status(400).json({ error: 'Bad request' });
+    res.status(400).json({ error: err.message });
   }
 };
 
@@ -45,7 +45,7 @@ const getTransactions = async (req, res) => {
     const transactions = await Transaction.find({ account_id });
     res.json(transactions);
   } catch (err) {
-    res.status(400).json({ error: 'Bad request' });
+    res.status(400).json({ error: err.message });
   }
 };
 
@@ -67,7 +67,7 @@ const deleteTransactionById = async (req, res) => {
     const deletedTransaction = await Transaction.findByIdAndDelete(id);
     res.json(deletedTransaction);
   } catch (err) {
-    res.status(400).json({ error: 'Bad request' });
+    res.status(400).json({ error: err.message });
   }
 };
 
@@ -128,7 +128,7 @@ const updateTransactionById = async (req, res) => {
 
     res.json(updatedTransaction);
   } catch (err) {
-    res.status(400).json({ error: 'Bad request' });
+    res.status(400).json({ error: err.message });
   }
 };
 
