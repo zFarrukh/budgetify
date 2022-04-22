@@ -2,12 +2,25 @@
   <div class="row">
     <div class="col-9">
       <div class="transactions__wrapper">
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Search Categories</mat-label>
+            <mat-icon matSuffix>search</mat-icon
+            ><input
+              matInput
+              placeholder="Search"
+              [(ngModel)]="searchText"
+              (ngModelChange)="searchKey($event)"
+              type="text"
+            />
+          </mat-form-field>
+        </div>
         <div *ngIf="isDeletedTransaction" class="transaction-removed">
           Transaction was successfully removed
         </div>
         <div
           class="transaction"
-          *ngFor="let transaction of transactions"
+          *ngFor="let transaction of transactionsForOutput"
           (click)="onSelectTransaction(transaction)"
         >
           <div class="transaction__category">

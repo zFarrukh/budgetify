@@ -15,6 +15,8 @@ import { TransactionsService } from './transactions.service';
 @UntilDestroy({ checkProperties: true })
 export class TransactionsComponent implements OnInit {
   transactions: ITransaction[] = [];
+  transactionsForOutput: ITransaction[] = [];
+  searchText = '';
   selectedAccount!: IAccount;
   currency = '';
   isDeletedTransaction = false;
@@ -63,6 +65,7 @@ export class TransactionsComponent implements OnInit {
       this.transactionsService.addTransaction(transaction).subscribe({
         next: (res: ITransaction) => {
           this.transactions.push(res);
+          this.transactionsForOutput.push(res);
         },
       })
     );
@@ -90,9 +93,32 @@ export class TransactionsComponent implements OnInit {
               }
               return item;
             });
+            this.transactionsForOutput = this.transactionsForOutput.map(
+              (item) => {
+                if (item._id === transaction._id) {
+                  return res;
+                }
+                return item;
+              }
+            );
           },
         })
     );
+  }
+
+  searchKey(data: string) {
+    this.searchText = data;
+    this.search();
+  }
+
+  search() {
+    this.transactionsForOutput = this.transactions.filter((transaction) => {
+      return (
+        transaction.title
+          .toLowerCase()
+          .indexOf(this.searchText.toLowerCase()) !== -1
+      );
+    });
   }
 
   constructor(
@@ -101,6 +127,7 @@ export class TransactionsComponent implements OnInit {
     private drawerService: DrawerService
   ) {
     this.transactions = this.transactionsService.transactions;
+    this.transactionsForOutput = this.transactions;
   }
 
   ngOnInit(): void {
@@ -110,6 +137,7 @@ export class TransactionsComponent implements OnInit {
           this.transactionsService.getTransactions(account._id).subscribe({
             next: (res: ITransaction[]) => {
               this.transactions = res;
+              this.transactionsForOutput = this.transactions;
               this.currency = account.currency;
               this.selectedAccount = account;
             },
@@ -122,6 +150,8 @@ export class TransactionsComponent implements OnInit {
       this.transactionsService.onChangeTransactions.subscribe({
         next: (transactions: ITransaction[]) => {
           this.transactions = transactions;
+          this.transactionsForOutput = transactions;
+          this.searchText = '';
         },
       })
     );

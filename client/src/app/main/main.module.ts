@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { MainPageComponent } from './main-page/main-page.component';
@@ -47,6 +48,7 @@ const routes: Routes = [
     LayoutModule,
     SharedModule,
     ReactiveFormsModule,
+    FormsModule,
   ],
 })
 export class MainModule {}
