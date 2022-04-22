@@ -1,4 +1,5 @@
 const Account = require('../models/account.model');
+const Transaction = require('../models/transaction.model');
 
 const getAllAccounts = async (req, res) => {
   try {
@@ -42,6 +43,15 @@ const updateAccountById = async (req, res) => {
   try {
     const id = req.params.id;
     const { title, description, currency } = req.body;
+    if (currency) {
+      const transactions = await Transaction.find({ account_id: id });
+      transactions.forEach(async (transaction) => {
+        await Transaction.findByIdAndUpdate(transaction._id, {
+          currency,
+        });
+      });
+    }
+
     const account = await Account.findByIdAndUpdate(
       id,
       {

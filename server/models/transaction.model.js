@@ -49,6 +49,10 @@ const transactionSchema = new mongoose.Schema({
       message: 'There is more than 2 numbers after dot',
     },
   },
+  currency: {
+    type: String,
+    required: true,
+  },
   date_of_creation: {
     type: Date,
     required: true,

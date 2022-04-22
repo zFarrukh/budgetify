@@ -25,6 +25,7 @@ const addTransaction = async (req, res) => {
       account_id,
       description,
       type,
+      currency: account.currency,
       date_of_creation: new Date(),
     });
     await transaction.save();
