@@ -22,6 +22,8 @@ export class TransactionEditComponent implements OnInit {
   subscription: Subscription = new Subscription();
   transaction!: ITransaction | null;
   categories!: ICategory[] | null;
+  expenseCategories!: ICategory[];
+  incomeCategories!: ICategory[];
   selectedAccount!: IAccount;
   isEditMode = false;
   open = false;
@@ -32,6 +34,14 @@ export class TransactionEditComponent implements OnInit {
     category: new FormControl(null, [Validators.required]),
     title: new FormControl(null, Validators.required),
   });
+
+  changeType(type: string) {
+    if (type === 'expense') {
+      this.categories = this.expenseCategories;
+    } else {
+      this.categories = this.incomeCategories;
+    }
+  }
 
   onClose() {
     this.transaction = null;
@@ -98,6 +108,12 @@ export class TransactionEditComponent implements OnInit {
       this.categoryService.getCategories().subscribe({
         next: (categories) => {
           this.categories = categories;
+          this.expenseCategories = categories.filter(
+            (category) => category.type === 'expense'
+          );
+          this.incomeCategories = categories.filter(
+            (category) => category.type === 'income'
+          );
         },
       })
     );
