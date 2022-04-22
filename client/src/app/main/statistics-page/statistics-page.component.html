@@ -42,7 +42,10 @@
           </form>
 
           <div class="stats__monthly" *ngIf="!isCategoryStatistics">
-            <table class="table">
+            <div *ngIf="monthlyStatistics.length === 0">
+              No Statistics to show
+            </div>
+            <table class="table" *ngIf="monthlyStatistics.length > 0">
               <thead>
                 <tr class="table-success">
                   <th>Month</th>
@@ -80,7 +83,10 @@
             </table>
           </div>
           <div class="stats__category" *ngIf="isCategoryStatistics">
-            <table class="table">
+            <div *ngIf="categoryStatistics.length === 0">
+              No Statistics to show
+            </div>
+            <table class="table" *ngIf="categoryStatistics.length > 0">
               <thead>
                 <tr class="table-success">
                   <th>Category</th>
