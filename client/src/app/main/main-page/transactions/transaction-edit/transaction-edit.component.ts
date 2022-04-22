@@ -4,7 +4,7 @@ import { UntilDestroy } from '@ngneat/until-destroy';
 import { Subscription } from 'rxjs';
 import { ICategory } from 'src/app/categories/category.model';
 import { CategoryService } from 'src/app/categories/category.service';
-import { DrawerService } from 'src/app/main/drawer.service';
+import { DrawerService } from '../../../../shared/services/drawer.service';
 import { IAccount } from '../../account/account.model';
 import { AccountService } from '../../account/account.service';
 import { ITransaction } from '../transaction.model';

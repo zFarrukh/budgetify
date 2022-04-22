@@ -7,7 +7,7 @@ import { AccountService } from '../account.service';
 import { currency_list } from '../../../../data/currency';
 import { Subscription } from 'rxjs';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { DrawerService } from 'src/app/main/drawer.service';
+import { DrawerService } from '../../../../shared/services/drawer.service';
 
 @Component({
   selector: 'app-account-edit',
