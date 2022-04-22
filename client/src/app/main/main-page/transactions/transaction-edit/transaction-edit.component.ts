@@ -30,7 +30,7 @@ export class TransactionEditComponent implements OnInit {
   transactionForm = new FormGroup({
     type: new FormControl(null, Validators.required),
     amount: new FormControl(null, [Validators.required, Validators.min(0.01)]),
-    description: new FormControl(''),
+    description: new FormControl(null),
     category: new FormControl(null, [Validators.required]),
     title: new FormControl(null, Validators.required),
   });

@@ -24,7 +24,6 @@ const transactionSchema = new mongoose.Schema({
     required: false,
     trim: true,
     type: String,
-    minlength: 1,
     maxlength: 256,
   },
   category: {
