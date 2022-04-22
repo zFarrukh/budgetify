@@ -6,7 +6,7 @@ const addTransaction = async (req, res) => {
   if ((!title || isNaN(amount) || !category, !account_id || !type)) {
     return res.status(400).json({ error: 'Bad request' });
   }
-  if (type !== 'income' && type !== 'expense') {
+  if (type !== 'income' || type !== 'expense') {
     return res.status(400).json({ error: 'Bad request' });
   }
   try {
