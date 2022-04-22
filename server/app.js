@@ -16,6 +16,7 @@ const accountRouter = require('./routes/account.router');
 const statsRouter = require('./routes/stats.router');
 
 const { jwtCallback } = require('./config/passport');
+const adminRouter = require('./routes/admin.router');
 
 const app = express();
 
@@ -38,6 +39,7 @@ app.use('/incomes', incomeRouter);
 app.use('/transactions', transactionRouter);
 app.use('/accounts', accountRouter);
 app.use('/stats', statsRouter);
+app.use('/admin', adminRouter);
 
 module.exports = {
   app,
