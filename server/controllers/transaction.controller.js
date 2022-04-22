@@ -11,11 +11,11 @@ const addTransaction = async (req, res) => {
   }
   try {
     const account = await Account.findById(account_id);
-    let newAmount;
+    let newAmount = 0;
     if (type === 'income') {
-      newAmount = account.amount + amount;
+      newAmount = Number(account.amount) + Number(amount);
     } else {
-      newAmount = account.amount - amount;
+      newAmount = Number(account.amount) - Number(amount);
     }
     if (newAmount < 0) throw new Error('Amount could not be lower than 0');
     const transaction = new Transaction({

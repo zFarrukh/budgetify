@@ -13,10 +13,26 @@ import { CategoryService } from '../category.service';
 export class CategoriesPageComponent implements OnInit {
   open = false;
   categories: ICategory[] = [];
+  categoriesForOutput: ICategory[] = [];
+  searchText = '';
   subscription: Subscription = new Subscription();
 
   openedChanged(open: boolean) {
     this.open = open;
+  }
+
+  searchKey(data: string) {
+    this.searchText = data;
+    this.search();
+  }
+
+  search() {
+    this.categoriesForOutput = this.categories.filter((category) => {
+      return (
+        category.title.toLowerCase().indexOf(this.searchText.toLowerCase()) !==
+        -1
+      );
+    });
   }
 
   constructor(private categoryService: CategoryService) {}
@@ -26,6 +42,7 @@ export class CategoriesPageComponent implements OnInit {
       this.categoryService.getCategories().subscribe({
         next: (categories: ICategory[]) => {
           this.categories = categories;
+          this.categoriesForOutput = this.categories;
         },
       })
     );
@@ -36,6 +53,9 @@ export class CategoriesPageComponent implements OnInit {
       this.categoryService.deleteCategoryById(id).subscribe({
         next: (res) => {
           this.categories = this.categories.filter(
+            (category) => category._id !== res._id
+          );
+          this.categoriesForOutput = this.categoriesForOutput.filter(
             (category) => category._id !== res._id
           );
         },
@@ -53,6 +73,14 @@ export class CategoriesPageComponent implements OnInit {
             }
             return category;
           });
+          this.categoriesForOutput = this.categoriesForOutput.map(
+            (category) => {
+              if (category._id === res._id) {
+                return res;
+              }
+              return category;
+            }
+          );
         },
       })
     );
