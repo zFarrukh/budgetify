@@ -39,6 +39,7 @@ const transactionSchema = new mongoose.Schema({
     validate: [
       { validator: arrayLimit, msg: 'categories exceeds the limit of 5' },
       { validator: checkForUnique, msg: 'categories must be unique' },
+      { validator: isArray, msg: 'categories must be an array' },
     ],
   },
   amount: {
@@ -71,6 +72,10 @@ const transactionSchema = new mongoose.Schema({
 
 function arrayLimit(val) {
   return val.length <= 5 && val.length > 0;
+}
+
+function isArray(val) {
+  return Array.isArray(val);
 }
 
 function checkForUnique(arr) {
