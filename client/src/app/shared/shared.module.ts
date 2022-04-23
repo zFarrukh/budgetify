@@ -44,8 +44,6 @@ import { DialogComponent } from './dialog/dialog.component';
     MatSelectModule,
     MatDialogModule,
   ],
-  declarations: [
-    DialogComponent
-  ],
+  declarations: [DialogComponent],
 })
 export class SharedModule {}
