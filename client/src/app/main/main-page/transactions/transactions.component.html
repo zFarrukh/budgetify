@@ -24,7 +24,7 @@
           (click)="onSelectTransaction(transaction)"
         >
           <div class="transaction__category">
-            <span>{{ transaction.category | uppercase }}</span>
+            <span>{{ transaction.category[0] | uppercase }}</span>
           </div>
           <div class="transaction__content">
             <div class="transaction__header">

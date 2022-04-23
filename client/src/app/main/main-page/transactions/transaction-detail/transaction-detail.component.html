@@ -32,7 +32,12 @@
       <h2>{{ transaction.title }}</h2>
     </div>
     <div>
-      <div class="transaction__category">{{ transaction.category }}</div>
+      <div
+        class="transaction__category"
+        *ngFor="let categoryTitle of transaction.category"
+      >
+        {{ categoryTitle }}
+      </div>
     </div>
     <div class="transaction__table">
       <table class="table">
