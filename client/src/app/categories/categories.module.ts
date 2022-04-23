@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CategoriesPageComponent } from './categories-page/categories-page.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -31,6 +32,7 @@ const routes: Routes = [
     MatIconModule,
     ReactiveFormsModule,
     SharedModule,
+    FormsModule,
   ],
 })
 export class CategoriesModule {}

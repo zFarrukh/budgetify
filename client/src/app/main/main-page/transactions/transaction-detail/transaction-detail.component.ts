@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { Subscription } from 'rxjs';
-import { DrawerService } from 'src/app/main/drawer.service';
+import { DrawerService } from '../../../../shared/services/drawer.service';
 import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 import { ITransaction } from '../transaction.model';
 import { TransactionsService } from '../transactions.service';

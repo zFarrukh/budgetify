@@ -7,4 +7,5 @@ export interface ITransaction {
   category: string;
   amount: number;
   date_of_creation: string;
+  currency?: string;
 }

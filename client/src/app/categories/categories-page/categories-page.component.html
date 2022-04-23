@@ -16,8 +16,22 @@
       <div class="row">
         <div class="col-9">
           <div class="categories-container">
+            <div>
+              <mat-form-field appearance="outline">
+                <mat-label>Search Categories</mat-label>
+                <mat-icon matSuffix>search</mat-icon
+                ><input
+                  matInput
+                  placeholder="Search"
+                  [ngModel]="searchText"
+                  (ngModelChange)="searchKey($event)"
+                  type="text"
+                />
+              </mat-form-field>
+            </div>
+
             <app-category-item
-              *ngFor="let category of categories"
+              *ngFor="let category of categoriesForOutput"
               [category]="category"
               (delete)="onDeleteCategory($event)"
               (update)="onUpdateCategory($event)"

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { Subscription } from 'rxjs';
-import { DrawerService } from '../../drawer.service';
+import { DrawerService } from '../../../shared/services/drawer.service';
 import { IAccount } from '../account/account.model';
 import { AccountService } from '../account/account.service';
 import { ITransaction } from './transaction.model';
@@ -15,6 +15,8 @@ import { TransactionsService } from './transactions.service';
 @UntilDestroy({ checkProperties: true })
 export class TransactionsComponent implements OnInit {
   transactions: ITransaction[] = [];
+  transactionsForOutput: ITransaction[] = [];
+  searchText = '';
   selectedAccount!: IAccount;
   currency = '';
   isDeletedTransaction = false;
@@ -63,6 +65,7 @@ export class TransactionsComponent implements OnInit {
       this.transactionsService.addTransaction(transaction).subscribe({
         next: (res: ITransaction) => {
           this.transactions.push(res);
+          this.transactionsForOutput.push(res);
         },
       })
     );
@@ -90,9 +93,32 @@ export class TransactionsComponent implements OnInit {
               }
               return item;
             });
+            this.transactionsForOutput = this.transactionsForOutput.map(
+              (item) => {
+                if (item._id === transaction._id) {
+                  return res;
+                }
+                return item;
+              }
+            );
           },
         })
     );
+  }
+
+  searchKey(data: string) {
+    this.searchText = data;
+    this.search();
+  }
+
+  search() {
+    this.transactionsForOutput = this.transactions.filter((transaction) => {
+      return (
+        transaction.title
+          .toLowerCase()
+          .indexOf(this.searchText.toLowerCase()) !== -1
+      );
+    });
   }
 
   constructor(
@@ -101,29 +127,31 @@ export class TransactionsComponent implements OnInit {
     private drawerService: DrawerService
   ) {
     this.transactions = this.transactionsService.transactions;
+    this.transactionsForOutput = this.transactions;
   }
 
   ngOnInit(): void {
-    this.subscription.add(
-      this.accountService.selectAccount.subscribe({
-        next: (account: IAccount) => {
-          if (account) {
-            this.transactionsService.getTransactions(account._id).subscribe({
-              next: (res: ITransaction[]) => {
-                this.transactions = res;
-                this.currency = account.currency;
-                this.selectedAccount = account;
-              },
-            });
-          }
-        },
-      })
-    );
+    this.accountService.selectAccount.subscribe({
+      next: (account: IAccount) => {
+        if (account) {
+          this.transactionsService.getTransactions(account._id).subscribe({
+            next: (res: ITransaction[]) => {
+              this.transactions = res;
+              this.transactionsForOutput = this.transactions;
+              this.currency = account.currency;
+              this.selectedAccount = account;
+            },
+          });
+        }
+      },
+    });
 
     this.subscription.add(
       this.transactionsService.onChangeTransactions.subscribe({
         next: (transactions: ITransaction[]) => {
           this.transactions = transactions;
+          this.transactionsForOutput = transactions;
+          this.searchText = '';
         },
       })
     );

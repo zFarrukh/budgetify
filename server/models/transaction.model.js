@@ -24,7 +24,6 @@ const transactionSchema = new mongoose.Schema({
     required: false,
     trim: true,
     type: String,
-    minlength: 1,
     maxlength: 256,
   },
   category: {
@@ -48,6 +47,10 @@ const transactionSchema = new mongoose.Schema({
       },
       message: 'There is more than 2 numbers after dot',
     },
+  },
+  currency: {
+    type: String,
+    required: true,
   },
   date_of_creation: {
     type: Date,

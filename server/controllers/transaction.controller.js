@@ -11,11 +11,11 @@ const addTransaction = async (req, res) => {
   }
   try {
     const account = await Account.findById(account_id);
-    let newAmount;
+    let newAmount = 0;
     if (type === 'income') {
-      newAmount = account.amount + amount;
+      newAmount = Number(account.amount) + Number(amount);
     } else {
-      newAmount = account.amount - amount;
+      newAmount = Number(account.amount) - Number(amount);
     }
     if (newAmount < 0) throw new Error('Amount could not be lower than 0');
     const transaction = new Transaction({
@@ -25,13 +25,14 @@ const addTransaction = async (req, res) => {
       account_id,
       description,
       type,
+      currency: account.currency,
       date_of_creation: new Date(),
     });
     await transaction.save();
     await Account.findByIdAndUpdate(account_id, { amount: newAmount });
     res.json(transaction);
   } catch (err) {
-    res.status(400).json({ error: 'Bad request' });
+    res.status(400).json({ error: err.message });
   }
 };
 
@@ -44,7 +45,7 @@ const getTransactions = async (req, res) => {
     const transactions = await Transaction.find({ account_id });
     res.json(transactions);
   } catch (err) {
-    res.status(400).json({ error: 'Bad request' });
+    res.status(400).json({ error: err.message });
   }
 };
 
@@ -66,7 +67,7 @@ const deleteTransactionById = async (req, res) => {
     const deletedTransaction = await Transaction.findByIdAndDelete(id);
     res.json(deletedTransaction);
   } catch (err) {
-    res.status(400).json({ error: 'Bad request' });
+    res.status(400).json({ error: err.message });
   }
 };
 
@@ -127,7 +128,7 @@ const updateTransactionById = async (req, res) => {
 
     res.json(updatedTransaction);
   } catch (err) {
-    res.status(400).json({ error: 'Bad request' });
+    res.status(400).json({ error: err.message });
   }
 };
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { Subscription } from 'rxjs';
-import { DrawerService } from '../drawer.service';
+import { DrawerService } from '../../shared/services/drawer.service';
 import { IAccount } from './account/account.model';
 import { AccountService } from './account/account.service';
 import { ITransaction } from './transactions/transaction.model';

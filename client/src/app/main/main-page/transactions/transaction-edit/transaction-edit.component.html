@@ -10,7 +10,11 @@
   <div class="transaction__body">
     <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
       <div>
-        <mat-radio-group aria-label="Select an option" formControlName="type">
+        <mat-radio-group
+          aria-label="Select an option"
+          formControlName="type"
+          (ngModelChange)="changeType($event)"
+        >
           <mat-radio-button value="expense">Expense</mat-radio-button>
           <mat-radio-button value="income">Income</mat-radio-button>
         </mat-radio-group>

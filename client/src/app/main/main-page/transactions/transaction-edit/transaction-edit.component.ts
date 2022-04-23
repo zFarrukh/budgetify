@@ -4,7 +4,7 @@ import { UntilDestroy } from '@ngneat/until-destroy';
 import { Subscription } from 'rxjs';
 import { ICategory } from 'src/app/categories/category.model';
 import { CategoryService } from 'src/app/categories/category.service';
-import { DrawerService } from 'src/app/main/drawer.service';
+import { DrawerService } from '../../../../shared/services/drawer.service';
 import { IAccount } from '../../account/account.model';
 import { AccountService } from '../../account/account.service';
 import { ITransaction } from '../transaction.model';
@@ -22,16 +22,26 @@ export class TransactionEditComponent implements OnInit {
   subscription: Subscription = new Subscription();
   transaction!: ITransaction | null;
   categories!: ICategory[] | null;
+  expenseCategories!: ICategory[];
+  incomeCategories!: ICategory[];
   selectedAccount!: IAccount;
   isEditMode = false;
   open = false;
   transactionForm = new FormGroup({
     type: new FormControl(null, Validators.required),
     amount: new FormControl(null, [Validators.required, Validators.min(0.01)]),
-    description: new FormControl(''),
+    description: new FormControl(null),
     category: new FormControl(null, [Validators.required]),
     title: new FormControl(null, Validators.required),
   });
+
+  changeType(type: string) {
+    if (type === 'expense') {
+      this.categories = this.expenseCategories;
+    } else {
+      this.categories = this.incomeCategories;
+    }
+  }
 
   onClose() {
     this.transaction = null;
@@ -53,6 +63,7 @@ export class TransactionEditComponent implements OnInit {
     } else {
       const payload = this.transactionForm.value;
       payload.account_id = this.selectedAccount._id;
+      payload.currency = this.selectedAccount.currency;
       this.addTransaction.emit(payload);
       this.onClose();
     }
@@ -98,6 +109,12 @@ export class TransactionEditComponent implements OnInit {
       this.categoryService.getCategories().subscribe({
         next: (categories) => {
           this.categories = categories;
+          this.expenseCategories = categories.filter(
+            (category) => category.type === 'expense'
+          );
+          this.incomeCategories = categories.filter(
+            (category) => category.type === 'income'
+          );
         },
       })
     );
