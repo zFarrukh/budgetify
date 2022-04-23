@@ -3,7 +3,13 @@ const Account = require('../models/account.model');
 
 const addTransaction = async (req, res) => {
   const { title, amount, category, account_id, description, type } = req.body;
-  if ((!title || isNaN(amount) || !category, !account_id || !type)) {
+  if (
+    !title ||
+    isNaN(amount) ||
+    !Array.isArray(category) ||
+    !account_id ||
+    !type
+  ) {
     return res.status(400).json({ error: 'Bad request' });
   }
   if (type !== 'income' && type !== 'expense') {

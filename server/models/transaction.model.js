@@ -27,11 +27,16 @@ const transactionSchema = new mongoose.Schema({
     maxlength: 256,
   },
   category: {
-    type: String,
-    trim: true,
-    required: true,
-    minlength: 1,
-    maxlength: 128,
+    type: [
+      {
+        type: String,
+        trim: true,
+        required: true,
+        minlength: 1,
+        maxlength: 128,
+      },
+    ],
+    validate: [arrayLimit, 'categories exceeds the limit of 5'],
   },
   amount: {
     type: Number,
@@ -60,6 +65,10 @@ const transactionSchema = new mongoose.Schema({
     type: Date,
   },
 });
+
+function arrayLimit(val) {
+  return val.length <= 5;
+}
 
 const Transaction = mongoose.model('Transaction', transactionSchema);
 
