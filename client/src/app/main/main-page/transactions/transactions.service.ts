@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject, tap } from 'rxjs';
 import { ITransaction } from './transaction.model';
 import { environment } from 'src/environments/environment';
+import { LoaderService } from 'src/app/shared/services/loader.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,7 @@ export class TransactionsService {
   public addTransactionMode = new Subject<boolean>();
 
   addTransaction(transaction: ITransaction): Observable<ITransaction> {
+    this.loaderService.isVisible.next(true);
     return this.http
       .post<ITransaction>(`${environment.API_URL}/transactions`, transaction)
       .pipe(
@@ -22,6 +24,9 @@ export class TransactionsService {
           next: (transaction: ITransaction) => {
             this.transactions.push(transaction);
             this.onChangeTransactions.next(this.transactions);
+          },
+          complete: () => {
+            this.loaderService.isVisible.next(false);
           },
         })
       );
@@ -52,6 +57,7 @@ export class TransactionsService {
   }
 
   getTransactions(account_id: string): Observable<ITransaction[]> {
+    this.loaderService.isVisible.next(true);
     return this.http
       .get<ITransaction[]>(`${environment.API_URL}/transactions`, {
         params: {
@@ -63,11 +69,15 @@ export class TransactionsService {
           next: (res: ITransaction[]) => {
             this.transactions = res;
           },
+          complete: () => {
+            this.loaderService.isVisible.next(false);
+          },
         })
       );
   }
 
   deleteTransactionById(id: string): Observable<ITransaction> {
+    this.loaderService.isVisible.next(true);
     return this.http
       .delete<ITransaction>(`${environment.API_URL}/transactions/${id}`)
       .pipe(
@@ -78,9 +88,12 @@ export class TransactionsService {
             });
             this.onChangeTransactions.next(this.transactions);
           },
+          complete: () => {
+            this.loaderService.isVisible.next(false);
+          },
         })
       );
   }
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private loaderService: LoaderService) {}
 }
