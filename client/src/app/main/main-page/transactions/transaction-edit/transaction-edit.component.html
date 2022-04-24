@@ -30,14 +30,30 @@
       <div>
         <mat-form-field appearance="outline">
           <mat-label>Select</mat-label>
-          <mat-select formControlName="category">
+          <mat-select
+            formControlName="category"
+            (ngModelChange)="categorySelect($event)"
+          >
             <mat-option
               *ngFor="let category of categories"
-              [value]="category.title"
-              >{{ category.title }}</mat-option
+              [value]="category"
+              >{{ category }}</mat-option
             >
           </mat-select>
         </mat-form-field>
+      </div>
+      <div class="categories">
+        <mat-chip-list>
+          <mat-chip
+            *ngFor="let categroy of selectedCategories"
+            (removed)="remove(categroy)"
+          >
+            {{ categroy }}
+            <button matChipRemove>
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+        </mat-chip-list>
       </div>
       <div>
         <mat-form-field appearance="outline">
@@ -66,7 +82,9 @@
         <button
           mat-raised-button
           color="primary"
-          [disabled]="transactionForm.invalid"
+          [disabled]="
+            transactionForm.invalid || selectedCategories.length === 0
+          "
         >
           {{ isEditMode ? 'Edit' : 'Add' }}
         </button>

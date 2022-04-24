@@ -27,11 +27,20 @@ const transactionSchema = new mongoose.Schema({
     maxlength: 256,
   },
   category: {
-    type: String,
-    trim: true,
-    required: true,
-    minlength: 1,
-    maxlength: 128,
+    type: [
+      {
+        type: String,
+        trim: true,
+        required: true,
+        minlength: 1,
+        maxlength: 128,
+      },
+    ],
+    validate: [
+      { validator: arrayLimit, msg: 'categories exceeds the limit of 5' },
+      { validator: checkForUnique, msg: 'categories must be unique' },
+      { validator: isArray, msg: 'categories must be an array' },
+    ],
   },
   amount: {
     type: Number,
@@ -60,6 +69,18 @@ const transactionSchema = new mongoose.Schema({
     type: Date,
   },
 });
+
+function arrayLimit(val) {
+  return val.length <= 5 && val.length > 0;
+}
+
+function isArray(val) {
+  return Array.isArray(val);
+}
+
+function checkForUnique(arr) {
+  return arr.length === new Set(arr).size;
+}
 
 const Transaction = mongoose.model('Transaction', transactionSchema);
 

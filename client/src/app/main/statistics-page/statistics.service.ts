@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
+import { LoaderService } from 'src/app/shared/services/loader.service';
 import { environment } from 'src/environments/environment';
 import { ICategoryStatistics, IMonthlyStatistics } from './statistics.model';
 
@@ -12,32 +13,78 @@ export class StatisticsService {
     account_id: string,
     options?: { fromDate: Date; toDate: Date }
   ): Observable<IMonthlyStatistics[]> {
+    this.loaderService.isVisible.next(true);
     if (options) {
       const result = new Date();
       result.setDate(options.toDate.getDate() + 1);
-      return this.http.get<IMonthlyStatistics[]>(
-        `${environment.API_URL}/stats/monthly?account_id=${account_id}&fromDate=${options.fromDate}&toDate=${result}`
-      );
+      return this.http
+        .get<IMonthlyStatistics[]>(
+          `${environment.API_URL}/stats/monthly?account_id=${account_id}&fromDate=${options.fromDate}&toDate=${result}`
+        )
+        .pipe(
+          tap({
+            complete: () => {
+              this.loaderService.isVisible.next(false);
+            },
+            error: () => {
+              this.loaderService.isVisible.next(false);
+            },
+          })
+        );
     }
-    return this.http.get<IMonthlyStatistics[]>(
-      `${environment.API_URL}/stats/monthly?account_id=${account_id}`
-    );
+    return this.http
+      .get<IMonthlyStatistics[]>(
+        `${environment.API_URL}/stats/monthly?account_id=${account_id}`
+      )
+      .pipe(
+        tap({
+          complete: () => {
+            this.loaderService.isVisible.next(false);
+          },
+          error: () => {
+            this.loaderService.isVisible.next(false);
+          },
+        })
+      );
   }
 
   getCategoryStatistics(
     account_id: string,
     options?: { fromDate: Date; toDate: Date }
   ): Observable<ICategoryStatistics[]> {
+    this.loaderService.isVisible.next(true);
     if (options) {
       const result = new Date();
       result.setDate(options.toDate.getDate() + 1);
-      return this.http.get<ICategoryStatistics[]>(
-        `${environment.API_URL}/stats/category?account_id=${account_id}&fromDate=${options.fromDate}&toDate=${result}`
-      );
+      return this.http
+        .get<ICategoryStatistics[]>(
+          `${environment.API_URL}/stats/category?account_id=${account_id}&fromDate=${options.fromDate}&toDate=${result}`
+        )
+        .pipe(
+          tap({
+            complete: () => {
+              this.loaderService.isVisible.next(false);
+            },
+            error: () => {
+              this.loaderService.isVisible.next(false);
+            },
+          })
+        );
     }
-    return this.http.get<ICategoryStatistics[]>(
-      `${environment.API_URL}/stats/category?account_id=${account_id}`
-    );
+    return this.http
+      .get<ICategoryStatistics[]>(
+        `${environment.API_URL}/stats/category?account_id=${account_id}`
+      )
+      .pipe(
+        tap({
+          complete: () => {
+            this.loaderService.isVisible.next(false);
+          },
+          error: () => {
+            this.loaderService.isVisible.next(false);
+          },
+        })
+      );
   }
 
   getTotalAndAverageStatistics(statistics: IMonthlyStatistics[]): {
@@ -79,5 +126,5 @@ export class StatisticsService {
     };
   }
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private loaderService: LoaderService) {}
 }

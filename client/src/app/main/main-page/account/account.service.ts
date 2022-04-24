@@ -33,10 +33,10 @@ export class AccountService {
     );
   }
 
-  updateAccountById(payload: {
-    title: string;
+  updateAccountById(payload?: {
+    title?: string;
     currency: string;
-    description?: string;
+    description: string;
   }): Observable<IAccount> {
     return this.http
       .put<IAccount>(

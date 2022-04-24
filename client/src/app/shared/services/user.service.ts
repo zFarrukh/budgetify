@@ -20,6 +20,14 @@ export class UserService {
   }
 
   isAdmin(): boolean {
+    const helper = new JwtHelperService();
+
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      const decodedToken = helper.decodeToken(token);
+      this.myUser = decodedToken;
+    }
     if (this.myUser) {
       return this.myUser.role === 'admin';
     }

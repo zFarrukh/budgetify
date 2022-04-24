@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IMonthlyStatistics } from '../main/statistics-page/statistics.model';
+import { LoaderService } from '../shared/services/loader.service';
 import {
   ICategoryAdminStatistics,
   IMonthlyAdminStatistics,
@@ -16,32 +17,74 @@ export class AdminService {
     fromDate: Date;
     toDate: Date;
   }): Observable<IMonthlyAdminStatistics> {
+    this.loaderService.isVisible.next(true);
     if (options?.fromDate || options?.toDate) {
       const result = new Date();
       result.setDate(options.toDate.getDate() + 1);
-      return this.http.get<IMonthlyAdminStatistics>(
-        `${environment.API_URL}/admin/monthly?fromDate=${options.fromDate}&toDate=${result}`
-      );
+      return this.http
+        .get<IMonthlyAdminStatistics>(
+          `${environment.API_URL}/admin/monthly?fromDate=${options.fromDate}&toDate=${result}`
+        )
+        .pipe(
+          tap({
+            complete: () => {
+              this.loaderService.isVisible.next(false);
+            },
+            error: () => {
+              this.loaderService.isVisible.next(false);
+            },
+          })
+        );
     }
-    return this.http.get<IMonthlyAdminStatistics>(
-      `${environment.API_URL}/admin/monthly`
-    );
+    return this.http
+      .get<IMonthlyAdminStatistics>(`${environment.API_URL}/admin/monthly`)
+      .pipe(
+        tap({
+          complete: () => {
+            this.loaderService.isVisible.next(false);
+          },
+          error: () => {
+            this.loaderService.isVisible.next(false);
+          },
+        })
+      );
   }
 
   getCategoryStatistics(options?: {
     fromDate: Date;
     toDate: Date;
   }): Observable<ICategoryAdminStatistics> {
+    this.loaderService.isVisible.next(true);
     if (options) {
       const result = new Date();
       result.setDate(options.toDate.getDate() + 1);
-      return this.http.get<ICategoryAdminStatistics>(
-        `${environment.API_URL}/admin/category?fromDate=${options.fromDate}&toDate=${result}`
-      );
+      return this.http
+        .get<ICategoryAdminStatistics>(
+          `${environment.API_URL}/admin/category?fromDate=${options.fromDate}&toDate=${result}`
+        )
+        .pipe(
+          tap({
+            complete: () => {
+              this.loaderService.isVisible.next(false);
+            },
+            error: () => {
+              this.loaderService.isVisible.next(false);
+            },
+          })
+        );
     }
-    return this.http.get<ICategoryAdminStatistics>(
-      `${environment.API_URL}/admin/category`
-    );
+    return this.http
+      .get<ICategoryAdminStatistics>(`${environment.API_URL}/admin/category`)
+      .pipe(
+        tap({
+          complete: () => {
+            this.loaderService.isVisible.next(false);
+          },
+          error: () => {
+            this.loaderService.isVisible.next(false);
+          },
+        })
+      );
   }
 
   getTotalAndAverageStatistics(statistics: IMonthlyStatistics[]): {
@@ -83,5 +126,5 @@ export class AdminService {
     };
   }
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private loaderService: LoaderService) {}
 }

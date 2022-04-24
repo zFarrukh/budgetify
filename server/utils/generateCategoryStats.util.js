@@ -3,12 +3,14 @@ const generateCategoryStats = (arr) => {
   let total = 0;
   arr.forEach((item) => {
     if (item.type === 'expense') {
-      if (result[item.category]) {
-        result[item.category] += item.amount;
-      } else {
-        result[item.category] = item.amount;
+      for (let title of item.category) {
+        if (result[title]) {
+          result[title] += item.amount;
+        } else {
+          result[title] = item.amount;
+        }
+        total += item.amount;
       }
-      total += item.amount;
     }
   });
 
