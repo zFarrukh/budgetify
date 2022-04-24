@@ -34,6 +34,9 @@ export class TransactionsService {
           complete: () => {
             this.loaderService.isVisible.next(false);
           },
+          error: () => {
+            this.loaderService.isVisible.next(false);
+          },
         })
       );
   }
@@ -104,6 +107,9 @@ export class TransactionsService {
           complete: () => {
             this.loaderService.isVisible.next(false);
           },
+          error: () => {
+            this.loaderService.isVisible.next(false);
+          },
         })
       );
   }
@@ -124,6 +130,9 @@ export class TransactionsService {
             }
           },
           complete: () => {
+            this.loaderService.isVisible.next(false);
+          },
+          error: () => {
             this.loaderService.isVisible.next(false);
           },
         })

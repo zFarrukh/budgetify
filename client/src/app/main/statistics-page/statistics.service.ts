@@ -26,6 +26,9 @@ export class StatisticsService {
             complete: () => {
               this.loaderService.isVisible.next(false);
             },
+            error: () => {
+              this.loaderService.isVisible.next(false);
+            },
           })
         );
     }
@@ -36,6 +39,9 @@ export class StatisticsService {
       .pipe(
         tap({
           complete: () => {
+            this.loaderService.isVisible.next(false);
+          },
+          error: () => {
             this.loaderService.isVisible.next(false);
           },
         })
@@ -59,6 +65,9 @@ export class StatisticsService {
             complete: () => {
               this.loaderService.isVisible.next(false);
             },
+            error: () => {
+              this.loaderService.isVisible.next(false);
+            },
           })
         );
     }
@@ -69,6 +78,9 @@ export class StatisticsService {
       .pipe(
         tap({
           complete: () => {
+            this.loaderService.isVisible.next(false);
+          },
+          error: () => {
             this.loaderService.isVisible.next(false);
           },
         })

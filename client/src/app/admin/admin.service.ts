@@ -30,6 +30,9 @@ export class AdminService {
             complete: () => {
               this.loaderService.isVisible.next(false);
             },
+            error: () => {
+              this.loaderService.isVisible.next(false);
+            },
           })
         );
     }
@@ -38,6 +41,9 @@ export class AdminService {
       .pipe(
         tap({
           complete: () => {
+            this.loaderService.isVisible.next(false);
+          },
+          error: () => {
             this.loaderService.isVisible.next(false);
           },
         })
@@ -61,6 +67,9 @@ export class AdminService {
             complete: () => {
               this.loaderService.isVisible.next(false);
             },
+            error: () => {
+              this.loaderService.isVisible.next(false);
+            },
           })
         );
     }
@@ -69,6 +78,9 @@ export class AdminService {
       .pipe(
         tap({
           complete: () => {
+            this.loaderService.isVisible.next(false);
+          },
+          error: () => {
             this.loaderService.isVisible.next(false);
           },
         })
