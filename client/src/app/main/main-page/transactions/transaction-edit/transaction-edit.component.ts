@@ -21,7 +21,8 @@ export class TransactionEditComponent implements OnInit {
   @Output() addTransaction = new EventEmitter<ITransaction>();
   subscription: Subscription = new Subscription();
   transaction!: ITransaction | null;
-  categories!: ICategory[] | null;
+  categories: string[] = [];
+  selectedCategories: string[] = [];
   expenseCategories!: ICategory[];
   incomeCategories!: ICategory[];
   selectedAccount!: IAccount;
@@ -37,9 +38,46 @@ export class TransactionEditComponent implements OnInit {
 
   changeType(type: string) {
     if (type === 'expense') {
-      this.categories = this.expenseCategories;
+      this.categories = this.expenseCategories.map((category) => {
+        return category.title;
+      });
     } else {
-      this.categories = this.incomeCategories;
+      this.categories = this.incomeCategories.map((category) => {
+        return category.title;
+      });
+    }
+  }
+
+  checkValue() {
+    const ctrl = this.transactionForm.get('category');
+    if (this.selectedCategories.length >= 5) {
+      ctrl?.disable();
+    } else {
+      ctrl?.enable();
+    }
+  }
+  categorySelect(title: string) {
+    if (this.categories) {
+      this.categories = this.categories?.filter((category) => {
+        if (category === title) {
+          this.selectedCategories.push(title);
+          return false;
+        }
+        return true;
+      });
+    }
+    this.checkValue();
+  }
+
+  remove(title: string): void {
+    const index = this.selectedCategories.indexOf(title);
+
+    if (index >= 0) {
+      this.selectedCategories.splice(index, 1);
+      this.checkValue();
+      if (this.categories) {
+        this.categories.push(title);
+      }
     }
   }
 
@@ -47,6 +85,10 @@ export class TransactionEditComponent implements OnInit {
     this.transaction = null;
     this.isEditMode = false;
     this.open = false;
+    for (let i = 0; i < this.selectedCategories.length; i++) {
+      this.categories.push(this.selectedCategories[i]);
+    }
+    this.selectedCategories = [];
     this.transactionForm.reset();
     this.transactionForm.markAsUntouched();
     this.drawerService.isOpen.next(false);
@@ -57,6 +99,7 @@ export class TransactionEditComponent implements OnInit {
       if (this.transaction) {
         const payload = this.transactionForm.value;
         payload._id = this.transaction._id;
+        payload.category = this.selectedCategories;
         this.updateTransaction.emit(payload);
         this.onClose();
       }
@@ -64,6 +107,7 @@ export class TransactionEditComponent implements OnInit {
       const payload = this.transactionForm.value;
       payload.account_id = this.selectedAccount._id;
       payload.currency = this.selectedAccount.currency;
+      payload.category = this.selectedCategories;
       this.addTransaction.emit(payload);
       this.onClose();
     }
@@ -79,16 +123,35 @@ export class TransactionEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.selectedCategories = [];
     this.subscription.add(
       this.transactionsService.editTransactionMode.subscribe({
         next: (transaction) => {
           this.transaction = transaction;
+          this.selectedCategories = [...transaction.category];
+          if (transaction.type === 'expense') {
+            this.categories = this.expenseCategories.map((category) => {
+              return category.title;
+            });
+          } else {
+            this.categories = this.incomeCategories.map((category) => {
+              return category.title;
+            });
+          }
+
+          this.categories = this.categories.filter((title) => {
+            if (this.selectedCategories.includes(title)) {
+              return false;
+            }
+            return true;
+          });
+
           this.isEditMode = true;
           this.transactionForm.patchValue({
             type: transaction.type,
             amount: transaction.amount,
             description: transaction.description,
-            category: transaction.category,
+            category: this.categories[0],
             title: transaction.title,
           });
           this.open = true;
@@ -108,7 +171,9 @@ export class TransactionEditComponent implements OnInit {
     this.subscription.add(
       this.categoryService.getCategories().subscribe({
         next: (categories) => {
-          this.categories = categories;
+          this.categories = categories.map((category) => {
+            return category.title;
+          });
           this.expenseCategories = categories.filter(
             (category) => category.type === 'expense'
           );

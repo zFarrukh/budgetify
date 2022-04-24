@@ -4,7 +4,7 @@ export interface ITransaction {
   account_id: string;
   description?: string;
   title: string;
-  category: string;
+  category: string[];
   amount: number;
   date_of_creation: string;
   currency?: string;

@@ -13,6 +13,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogComponent } from './dialog/dialog.component';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import { DialogComponent } from './dialog/dialog.component';
     MatRadioModule,
     MatSelectModule,
     MatDialogModule,
+    MatChipsModule,
   ],
   exports: [
     MatInputModule,
@@ -43,6 +45,7 @@ import { DialogComponent } from './dialog/dialog.component';
     MatRadioModule,
     MatSelectModule,
     MatDialogModule,
+    MatChipsModule,
   ],
   declarations: [DialogComponent],
 })
