@@ -4,6 +4,7 @@ import { Observable, Subject, tap } from 'rxjs';
 import { ITransaction } from './transaction.model';
 import { environment } from 'src/environments/environment';
 import { LoaderService } from 'src/app/shared/services/loader.service';
+import { AccountService } from '../account/account.service';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,11 @@ export class TransactionsService {
           next: (transaction: ITransaction) => {
             this.transactions.push(transaction);
             this.onChangeTransactions.next(this.transactions);
+            if (transaction.type === 'expense') {
+              this.accountService.selectedAccount.amount -= transaction.amount;
+            } else {
+              this.accountService.selectedAccount.amount += transaction.amount;
+            }
           },
           complete: () => {
             this.loaderService.isVisible.next(false);
@@ -43,10 +49,36 @@ export class TransactionsService {
       )
       .pipe(
         tap({
-          next: (transaction) => {
+          next: (res) => {
             this.transactions = this.transactions.map((item) => {
               if (item._id === id) {
-                return transaction;
+                if (item.type === 'expense') {
+                  if (transaction.type === 'expense') {
+                    this.accountService.selectedAccount.amount =
+                      this.accountService.selectedAccount.amount -
+                      transaction.amount +
+                      item.amount;
+                  } else {
+                    this.accountService.selectedAccount.amount =
+                      this.accountService.selectedAccount.amount +
+                      transaction.amount +
+                      item.amount;
+                  }
+                } else if (item.type === 'income') {
+                  if (transaction.type === 'income') {
+                    this.accountService.selectedAccount.amount =
+                      this.accountService.selectedAccount.amount -
+                      item.amount +
+                      transaction.amount;
+                  } else {
+                    this.accountService.selectedAccount.amount =
+                      this.accountService.selectedAccount.amount -
+                      transaction.amount -
+                      item.amount;
+                  }
+                }
+
+                return res;
               }
               return item;
             });
@@ -87,6 +119,9 @@ export class TransactionsService {
               return item._id !== transaction._id;
             });
             this.onChangeTransactions.next(this.transactions);
+            if (transaction.type === 'expense') {
+              this.accountService.selectedAccount.amount += transaction.amount;
+            }
           },
           complete: () => {
             this.loaderService.isVisible.next(false);
@@ -95,5 +130,9 @@ export class TransactionsService {
       );
   }
 
-  constructor(private http: HttpClient, private loaderService: LoaderService) {}
+  constructor(
+    private http: HttpClient,
+    private loaderService: LoaderService,
+    private accountService: AccountService
+  ) {}
 }

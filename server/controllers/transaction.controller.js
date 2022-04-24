@@ -61,7 +61,7 @@ const deleteTransactionById = async (req, res) => {
     const transaction = await Transaction.findById(id);
     const account = await Account.findById(transaction.account_id);
     let newAmount;
-    if (account.type === 'expense') {
+    if (transaction.type === 'expense') {
       newAmount = account.amount + transaction.amount;
     } else {
       newAmount = account.amount - transaction.amount;
