@@ -46,6 +46,7 @@ export class TransactionEditComponent implements OnInit {
         return category.title;
       });
     }
+    this.selectedCategories = [];
   }
 
   checkValue() {
