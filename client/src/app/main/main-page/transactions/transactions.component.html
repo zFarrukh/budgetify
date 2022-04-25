@@ -4,7 +4,7 @@
       <div class="transactions__wrapper">
         <div>
           <mat-form-field appearance="outline">
-            <mat-label>Search Categories</mat-label>
+            <mat-label>Search Transaction</mat-label>
             <mat-icon matSuffix>search</mat-icon
             ><input
               matInput
@@ -51,11 +51,17 @@
       </div>
     </div>
     <div class="col-3">
-      <div class="transaction__aside type">
+      <div
+        class="transaction__aside type"
+        (click)="onSelectTransactionsByType('income')"
+      >
         <mat-icon class="transaction__icon income">arrow_downward</mat-icon>
         <span>Income</span>
       </div>
-      <div class="transaction__aside type">
+      <div
+        class="transaction__aside type"
+        (click)="onSelectTransactionsByType('expense')"
+      >
         <mat-icon class="transaction__icon expense">arrow_upward</mat-icon>
         <span>Expense</span>
       </div>

@@ -30,6 +30,7 @@ export class CategoryAddComponent implements OnInit {
 
   onClose() {
     this.categoryForm.reset();
+    this.categoryForm.markAsUntouched();
     this.categoryService.closeCategoryMode.next(true);
   }
 

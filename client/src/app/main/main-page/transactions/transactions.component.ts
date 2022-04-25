@@ -121,6 +121,11 @@ export class TransactionsComponent implements OnInit {
     });
   }
 
+  onSelectTransactionsByType(type: string) {
+    this.transactionsForOutput =
+      this.transactionsService.getTransactionsByType(type);
+  }
+
   constructor(
     private transactionsService: TransactionsService,
     private accountService: AccountService,

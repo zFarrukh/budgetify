@@ -139,6 +139,12 @@ export class TransactionsService {
       );
   }
 
+  getTransactionsByType(type: string): ITransaction[] {
+    return this.transactions.filter((transaction) => {
+      return transaction.type === type;
+    });
+  }
+
   constructor(
     private http: HttpClient,
     private loaderService: LoaderService,
