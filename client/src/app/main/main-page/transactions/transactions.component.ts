@@ -42,24 +42,6 @@ export class TransactionsComponent implements OnInit {
     this.drawerService.isOpen.next(true);
   }
 
-  onDeleteTransaction(transaction: ITransaction) {
-    this.subscription.add(
-      this.transactionsService
-        .deleteTransactionById(transaction._id)
-        .subscribe({
-          next: (res: ITransaction) => {
-            this.transactions = this.transactions.filter(
-              (transaction) => transaction._id !== res._id
-            );
-            this.isDeletedTransaction = true;
-            setTimeout(() => {
-              this.isDeletedTransaction = false;
-            }, 2000);
-          },
-        })
-    );
-  }
-
   addTransaction(transaction: ITransaction) {
     this.subscription.add(
       this.transactionsService.addTransaction(transaction).subscribe({
@@ -126,6 +108,24 @@ export class TransactionsComponent implements OnInit {
       this.transactionsService.getTransactionsByType(type);
   }
 
+  sortTransactions(type: string) {
+    if (type === 'latest') {
+      this.transactionsForOutput.sort(function (a, b) {
+        return (
+          new Date(b.date_of_creation).getTime() -
+          new Date(a.date_of_creation).getTime()
+        );
+      });
+    } else if (type === 'oldest') {
+      this.transactionsForOutput.sort(function (a, b) {
+        return (
+          new Date(a.date_of_creation).getTime() -
+          new Date(b.date_of_creation).getTime()
+        );
+      });
+    }
+  }
+
   constructor(
     private transactionsService: TransactionsService,
     private accountService: AccountService,
@@ -150,6 +150,19 @@ export class TransactionsComponent implements OnInit {
         }
       },
     });
+
+    this.subscription.add(
+      this.transactionsService.deleteTransaction.subscribe({
+        next: (transaction) => {
+          if (transaction) {
+            this.isDeletedTransaction = true;
+            setTimeout(() => {
+              this.isDeletedTransaction = false;
+            }, 2000);
+          }
+        },
+      })
+    );
 
     this.subscription.add(
       this.transactionsService.onChangeTransactions.subscribe({

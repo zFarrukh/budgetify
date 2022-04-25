@@ -2,21 +2,39 @@
   <div class="row">
     <div class="col-9">
       <div class="transactions__wrapper">
-        <div>
-          <mat-form-field appearance="outline">
-            <mat-label>Search Transaction</mat-label>
-            <mat-icon matSuffix>search</mat-icon
-            ><input
-              matInput
-              placeholder="Search"
-              [(ngModel)]="searchText"
-              (ngModelChange)="searchKey($event)"
-              type="text"
-            />
-          </mat-form-field>
+        <div class="row">
+          <div class="col-6">
+            <mat-form-field appearance="outline">
+              <mat-label>Search Transaction</mat-label>
+              <mat-icon matSuffix>search</mat-icon
+              ><input
+                matInput
+                placeholder="Search"
+                [(ngModel)]="searchText"
+                (ngModelChange)="searchKey($event)"
+                type="text"
+              />
+            </mat-form-field>
+          </div>
+
+          <div class="col-6">
+            <h2>Sort Transactions By</h2>
+            <button
+              (click)="sortTransactions('latest')"
+              class="btn btn-outline-success"
+            >
+              Latest
+            </button>
+            <button
+              (click)="sortTransactions('oldest')"
+              class="btn btn-outline-primary"
+            >
+              Oldest
+            </button>
+          </div>
         </div>
         <div *ngIf="isDeletedTransaction" class="transaction-removed">
-          Transaction was successfully removed
+          Transaction was successfully deleted
         </div>
         <div
           class="transaction"
