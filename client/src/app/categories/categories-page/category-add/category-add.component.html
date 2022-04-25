@@ -9,7 +9,11 @@
       </div>
     </div>
     <div class="category__body">
-      <form [formGroup]="categoryForm" (ngSubmit)="onAddCategory()">
+      <form
+        [formGroup]="categoryForm"
+        (ngSubmit)="onAddCategory(formDirective)"
+        #formDirective="ngForm"
+      >
         <div>
           <mat-radio-group
             aria-label="Select an option"

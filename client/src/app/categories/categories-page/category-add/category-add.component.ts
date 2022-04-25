@@ -3,6 +3,7 @@ import {
   AbstractControl,
   FormControl,
   FormGroup,
+  FormGroupDirective,
   Validators,
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -58,9 +59,10 @@ export class CategoryAddComponent implements OnInit {
     return isUnique ? { isUnique: true } : null;
   }
 
-  onAddCategory() {
+  onAddCategory(formDirective: FormGroupDirective) {
     this.addCategory.emit(this.categoryForm.value);
     this.onClose();
+    formDirective.resetForm();
   }
 
   constructor(private categoryService: CategoryService) {}
