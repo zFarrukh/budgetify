@@ -152,7 +152,7 @@ export class TransactionEditComponent implements OnInit {
             type: transaction.type,
             amount: transaction.amount,
             description: transaction.description,
-            category: this.categories[0],
+            category: transaction.category[0],
             title: transaction.title,
           });
           this.open = true;
