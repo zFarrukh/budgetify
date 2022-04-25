@@ -1,4 +1,10 @@
-<div class="alert" *ngIf="isError">{{ errorMessage }}</div>
+<div
+  class="alert alert-danger position-fixed end-0 d-flex m-5"
+  role="alert"
+  *ngIf="isError"
+>
+  <p>{{ errorMessage }}</p>
+</div>
 <mat-drawer-container [hasBackdrop]="true" CdkScrollable>
   <mat-drawer
     #drawer
