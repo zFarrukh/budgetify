@@ -1,6 +1,12 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { ICategory } from '../../category.model';
 import { CategoryService } from '../../category.service';
 
 @Component({
@@ -8,11 +14,17 @@ import { CategoryService } from '../../category.service';
   templateUrl: './category-add.component.html',
   styleUrls: ['./category-add.component.scss'],
 })
-export class CategoryAddComponent {
+export class CategoryAddComponent implements OnInit {
   @Output() addCategory = new EventEmitter();
+  categories: ICategory[] = [];
+  expenseCategories: ICategory[] = [];
+  incomeCategories: ICategory[] = [];
   subscription: Subscription = new Subscription();
   categoryForm = new FormGroup({
-    title: new FormControl(null, Validators.required),
+    title: new FormControl(null, [
+      Validators.required,
+      this.checkIsUnique.bind(this),
+    ]),
     type: new FormControl(null, Validators.required),
   });
 
@@ -21,10 +33,48 @@ export class CategoryAddComponent {
     this.categoryService.closeCategoryMode.next(true);
   }
 
+  changeType(type: string) {
+    if (type === 'expense') {
+      this.categories = this.expenseCategories;
+    } else if (type === 'income') {
+      this.categories = this.incomeCategories;
+    }
+  }
+
+  checkIsUnique(control: AbstractControl): { [key: string]: boolean } | null {
+    let isUnique = false;
+    if (this.categories.length > 0) {
+      this.categories.forEach((category) => {
+        if (
+          control.value &&
+          category.title &&
+          category.title.toLowerCase() === control.value.trim().toLowerCase()
+        ) {
+          isUnique = true;
+        }
+      });
+    }
+    return isUnique ? { isUnique: true } : null;
+  }
+
   onAddCategory() {
     this.addCategory.emit(this.categoryForm.value);
     this.onClose();
   }
 
   constructor(private categoryService: CategoryService) {}
+
+  ngOnInit() {
+    this.categoryService.getCategories().subscribe({
+      next: (categories: ICategory[]) => {
+        this.categories = categories;
+        this.expenseCategories = this.categories.filter(
+          (category) => category.type === 'expense'
+        );
+        this.incomeCategories = this.categories.filter(
+          (category) => category.type === 'income'
+        );
+      },
+    });
+  }
 }
