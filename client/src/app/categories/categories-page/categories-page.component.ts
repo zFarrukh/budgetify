@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { Subscription } from 'rxjs';
@@ -16,6 +17,8 @@ export class CategoriesPageComponent implements OnInit {
   categoriesForOutput: ICategory[] = [];
   searchText = '';
   subscription: Subscription = new Subscription();
+  isError = false;
+  errorMessage = '';
 
   openedChanged(open: boolean) {
     this.open = open;
@@ -101,6 +104,20 @@ export class CategoriesPageComponent implements OnInit {
     this.subscription.add(
       this.categoryService.closeCategoryMode.subscribe(() => {
         this.open = false;
+      })
+    );
+
+    this.subscription.add(
+      this.categoryService.errorMessage.subscribe({
+        next: (errorMessage: HttpErrorResponse) => {
+          this.isError = true;
+          this.errorMessage = errorMessage.error.error;
+
+          setTimeout(() => {
+            this.isError = false;
+            this.errorMessage = '';
+          }, 2000);
+        },
       })
     );
   }

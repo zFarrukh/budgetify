@@ -18,15 +18,15 @@ const addCategory = async (req, res) => {
     const categories = await Category.find({
       user_id,
       type,
-      title: title.toLowerCase().trim(),
+      title,
     });
     if (categories.length > 0) {
-      res.status(400).json({ error: 'Category already exists' });
+      return res.status(400).json({ error: 'Category already exists' });
     }
 
     const category = new Category({
       type,
-      title: title.toLowerCase().trim(),
+      title,
       user_id,
     });
     await category.save();
@@ -49,20 +49,21 @@ const deleteCategoryById = async (req, res) => {
 
 const updateCategoryById = async (req, res) => {
   const id = req.params.id;
-  const { title, type } = req.body;
+  const { title } = req.body;
   try {
+    const oldCategory = await Category.findById(id);
     const categories = await Category.find({
       user_id: req.user._id,
-      type,
-      title: title.toLowerCase().trim(),
+      title,
+      type: oldCategory.type,
     });
     if (categories.length > 0) {
-      res.status(400).json({ error: 'Category already exists' });
+      return res.status(400).json({ error: 'Category already exists' });
     }
 
     const category = await Category.findByIdAndUpdate(
       id,
-      { title: title.toLowerCase().trim(), type },
+      { title },
       { new: true }
     );
     res.json(category);
