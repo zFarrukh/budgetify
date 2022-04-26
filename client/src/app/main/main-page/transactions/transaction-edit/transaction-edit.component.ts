@@ -27,6 +27,7 @@ export class TransactionEditComponent implements OnInit {
   incomeCategories!: ICategory[];
   selectedAccount!: IAccount;
   isEditMode = false;
+  maxDate = new Date();
   open = false;
   transactionForm = new FormGroup({
     type: new FormControl(null, Validators.required),
@@ -34,6 +35,7 @@ export class TransactionEditComponent implements OnInit {
     description: new FormControl(null),
     category: new FormControl(null, [Validators.required]),
     title: new FormControl(null, Validators.required),
+    date_of_creation: new FormControl(null),
   });
 
   changeType(type: string) {
@@ -152,8 +154,9 @@ export class TransactionEditComponent implements OnInit {
             type: transaction.type,
             amount: transaction.amount,
             description: transaction.description,
-            category: this.categories[0],
+            category: transaction.category[0],
             title: transaction.title,
+            date_of_creation: transaction.date_of_creation,
           });
           this.open = true;
         },

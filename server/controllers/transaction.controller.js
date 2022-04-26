@@ -2,7 +2,15 @@ const Transaction = require('../models/transaction.model');
 const Account = require('../models/account.model');
 
 const addTransaction = async (req, res) => {
-  const { title, amount, category, account_id, description, type } = req.body;
+  const {
+    title,
+    amount,
+    category,
+    account_id,
+    description,
+    type,
+    date_of_creation,
+  } = req.body;
   if (
     !title ||
     isNaN(amount) ||
@@ -24,6 +32,7 @@ const addTransaction = async (req, res) => {
       newAmount = Number(account.amount) - Number(amount);
     }
     if (newAmount < 0) throw new Error('Amount could not be lower than 0');
+    let DateOfCreation = date_of_creation ? date_of_creation : new Date();
     const transaction = new Transaction({
       title,
       amount,
@@ -32,7 +41,7 @@ const addTransaction = async (req, res) => {
       description,
       type,
       currency: account.currency,
-      date_of_creation: new Date(),
+      date_of_creation: DateOfCreation,
     });
     await transaction.save();
     await Account.findByIdAndUpdate(account_id, { amount: newAmount });
@@ -79,7 +88,8 @@ const deleteTransactionById = async (req, res) => {
 
 const updateTransactionById = async (req, res) => {
   const id = req.params.id;
-  const { title, amount, category, description, type } = req.body;
+  const { title, amount, category, description, type, date_of_creation } =
+    req.body;
   if (!id && type !== 'income' && type !== 'expense') {
     return res.status(400).json({ error: 'Bad request' });
   }
@@ -128,6 +138,7 @@ const updateTransactionById = async (req, res) => {
         description,
         date_of_update: new Date(),
         type,
+        date_of_creation,
       },
       { new: true }
     );

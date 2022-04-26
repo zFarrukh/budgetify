@@ -5,6 +5,7 @@ import { UntilDestroy } from '@ngneat/until-destroy';
 import { Subscription } from 'rxjs';
 import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 import { ICategory } from '../../category.model';
+import { CategoryService } from '../../category.service';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -18,6 +19,7 @@ export class CategoryItemComponent implements OnInit {
   @Output() update = new EventEmitter();
   isEditMode = false;
   subscription: Subscription = new Subscription();
+  oldValue = '';
   categoryForm = new FormGroup({
     title: new FormControl({ value: '', disabled: !this.isEditMode }, [
       Validators.required,
@@ -61,13 +63,27 @@ export class CategoryItemComponent implements OnInit {
     this.categoryForm.controls['title'].disable();
   }
 
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    private dialog: MatDialog,
+    private categoryService: CategoryService
+  ) {}
 
   ngOnInit(): void {
     if (this.category && this.category.title) {
       this.categoryForm.setValue({
         title: this.category.title,
       });
+      this.oldValue = this.category.title;
     }
+
+    this.categoryService.errorMessage.subscribe({
+      next: (err) => {
+        if (err) {
+          this.categoryForm.setValue({
+            title: this.oldValue,
+          });
+        }
+      },
+    });
   }
 }

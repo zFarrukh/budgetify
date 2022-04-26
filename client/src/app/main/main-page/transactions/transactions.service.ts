@@ -15,6 +15,7 @@ export class TransactionsService {
   public selectedTransaction = new Subject<ITransaction>();
   public editTransactionMode = new Subject<ITransaction>();
   public addTransactionMode = new Subject<boolean>();
+  public deleteTransaction = new Subject<ITransaction>();
 
   addTransaction(transaction: ITransaction): Observable<ITransaction> {
     this.loaderService.isVisible.next(true);
@@ -128,6 +129,7 @@ export class TransactionsService {
             if (transaction.type === 'expense') {
               this.accountService.selectedAccount.amount += transaction.amount;
             }
+            this.deleteTransaction.next(transaction);
           },
           complete: () => {
             this.loaderService.isVisible.next(false);
@@ -137,6 +139,12 @@ export class TransactionsService {
           },
         })
       );
+  }
+
+  getTransactionsByType(type: string): ITransaction[] {
+    return this.transactions.filter((transaction) => {
+      return transaction.type === type;
+    });
   }
 
   constructor(

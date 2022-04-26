@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -10,6 +10,7 @@ import { ICategory } from './category.model';
 })
 export class CategoryService {
   public closeCategoryMode = new Subject<boolean>();
+  public errorMessage = new Subject<HttpErrorResponse>();
 
   getCategories(): Observable<ICategory[]> {
     this.loaderService.isVisible.next(true);
@@ -18,6 +19,10 @@ export class CategoryService {
       .pipe(
         tap({
           complete: () => {
+            this.loaderService.isVisible.next(false);
+          },
+          error: (err) => {
+            this.errorMessage.next(err);
             this.loaderService.isVisible.next(false);
           },
         })
@@ -33,6 +38,10 @@ export class CategoryService {
           complete: () => {
             this.loaderService.isVisible.next(false);
           },
+          error: (err) => {
+            this.errorMessage.next(err);
+            this.loaderService.isVisible.next(false);
+          },
         })
       );
   }
@@ -41,10 +50,16 @@ export class CategoryService {
     id: string,
     payload: { title: string }
   ): Observable<ICategory> {
-    return this.http.put<ICategory>(
-      `${environment.API_URL}/categories/${id}`,
-      payload
-    );
+    return this.http
+      .put<ICategory>(`${environment.API_URL}/categories/${id}`, payload)
+      .pipe(
+        tap({
+          error: (err) => {
+            this.errorMessage.next(err);
+            this.loaderService.isVisible.next(false);
+          },
+        })
+      );
   }
 
   addCategory(payload: { title: string; type: string }): Observable<ICategory> {
@@ -54,6 +69,10 @@ export class CategoryService {
       .pipe(
         tap({
           complete: () => {
+            this.loaderService.isVisible.next(false);
+          },
+          error: (err) => {
+            this.errorMessage.next(err);
             this.loaderService.isVisible.next(false);
           },
         })

@@ -92,9 +92,6 @@ export class AdminComponent implements OnInit {
             this.statisticsService.getTotalAndAverageStatistics(
               statistics[key]
             );
-          console.log('key is ', key);
-          console.log(statistics);
-          console.log('total is ', total);
           this.total[key] = total;
           this.average[key] = average;
         }

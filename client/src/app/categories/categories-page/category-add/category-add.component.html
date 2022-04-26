@@ -9,9 +9,17 @@
       </div>
     </div>
     <div class="category__body">
-      <form [formGroup]="categoryForm" (ngSubmit)="onAddCategory()">
+      <form
+        [formGroup]="categoryForm"
+        (ngSubmit)="onAddCategory(formDirective)"
+        #formDirective="ngForm"
+      >
         <div>
-          <mat-radio-group aria-label="Select an option" formControlName="type">
+          <mat-radio-group
+            aria-label="Select an option"
+            formControlName="type"
+            (ngModelChange)="changeType($event)"
+          >
             <mat-radio-button value="expense">Expense</mat-radio-button>
             <mat-radio-button value="income">Income</mat-radio-button>
           </mat-radio-group>
@@ -19,9 +27,6 @@
         <div>
           <mat-form-field appearance="outline">
             <input matInput placeholder="Title" formControlName="title" />
-            <mat-error *ngIf="categoryForm.controls['title'].invalid"
-              >Please enter a title</mat-error
-            >
           </mat-form-field>
         </div>
         <div>

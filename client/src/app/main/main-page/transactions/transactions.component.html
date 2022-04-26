@@ -2,21 +2,39 @@
   <div class="row">
     <div class="col-9">
       <div class="transactions__wrapper">
-        <div>
-          <mat-form-field appearance="outline">
-            <mat-label>Search Categories</mat-label>
-            <mat-icon matSuffix>search</mat-icon
-            ><input
-              matInput
-              placeholder="Search"
-              [(ngModel)]="searchText"
-              (ngModelChange)="searchKey($event)"
-              type="text"
-            />
-          </mat-form-field>
+        <div class="row">
+          <div class="col-6">
+            <mat-form-field appearance="outline">
+              <mat-label>Search Transaction</mat-label>
+              <mat-icon matSuffix>search</mat-icon
+              ><input
+                matInput
+                placeholder="Search"
+                [(ngModel)]="searchText"
+                (ngModelChange)="searchKey($event)"
+                type="text"
+              />
+            </mat-form-field>
+          </div>
+
+          <div class="col-6">
+            <h2>Sort Transactions By Date</h2>
+            <button
+              (click)="sortTransactions('latest')"
+              class="btn btn-outline-success"
+            >
+              Latest
+            </button>
+            <button
+              (click)="sortTransactions('oldest')"
+              class="btn btn-outline-primary"
+            >
+              Oldest
+            </button>
+          </div>
         </div>
         <div *ngIf="isDeletedTransaction" class="transaction-removed">
-          Transaction was successfully removed
+          Transaction was successfully deleted
         </div>
         <div
           class="transaction"
@@ -51,11 +69,17 @@
       </div>
     </div>
     <div class="col-3">
-      <div class="transaction__aside type">
+      <div
+        class="transaction__aside type"
+        (click)="onSelectTransactionsByType('income')"
+      >
         <mat-icon class="transaction__icon income">arrow_downward</mat-icon>
         <span>Income</span>
       </div>
-      <div class="transaction__aside type">
+      <div
+        class="transaction__aside type"
+        (click)="onSelectTransactionsByType('expense')"
+      >
         <mat-icon class="transaction__icon expense">arrow_upward</mat-icon>
         <span>Expense</span>
       </div>

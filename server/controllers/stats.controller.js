@@ -5,37 +5,45 @@ const {
 const { generateMonthlyStats } = require('../utils/generateMonthlyStats.util');
 
 const getCategoryStats = async (req, res) => {
-  const { account_id, fromDate, toDate } = req.query;
-  const findQuery = {
-    account_id,
-  };
-
-  if (fromDate && toDate) {
-    findQuery.date_of_creation = {
-      $gte: new Date(fromDate),
-      $lte: new Date(toDate),
+  try {
+    const { account_id, fromDate, toDate } = req.query;
+    const findQuery = {
+      account_id,
     };
-  }
 
-  const transactions = await Transaction.find(findQuery);
-  res.json(generateCategoryStats(transactions));
+    if (fromDate && toDate) {
+      findQuery.date_of_creation = {
+        $gte: new Date(fromDate),
+        $lte: new Date(toDate),
+      };
+    }
+
+    const transactions = await Transaction.find(findQuery);
+    res.json(generateCategoryStats(transactions));
+  } catch (err) {
+    res.status(400).json(err);
+  }
 };
 
 const getMonthlyStats = async (req, res) => {
-  const { account_id, fromDate, toDate } = req.query;
-  const findQuery = {
-    account_id,
-  };
-
-  if (fromDate && toDate) {
-    findQuery.date_of_creation = {
-      $gte: new Date(fromDate),
-      $lte: new Date(toDate),
+  try {
+    const { account_id, fromDate, toDate } = req.query;
+    const findQuery = {
+      account_id,
     };
-  }
 
-  const transactions = await Transaction.find(findQuery);
-  res.json(generateMonthlyStats(transactions));
+    if (fromDate && toDate) {
+      findQuery.date_of_creation = {
+        $gte: new Date(fromDate),
+        $lte: new Date(toDate),
+      };
+    }
+
+    const transactions = await Transaction.find(findQuery);
+    res.json(generateMonthlyStats(transactions));
+  } catch (err) {
+    res.status(400).json(err);
+  }
 };
 
 module.exports = {
