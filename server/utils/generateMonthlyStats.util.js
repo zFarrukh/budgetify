@@ -43,7 +43,10 @@ const generateMonthlyStats = (arr) => {
       const income = transactionsByMonth[month].income;
       const expense = transactionsByMonth[month].expense;
       const economy = income - expense;
-      const economyPercentage = (economy / income) * 100;
+      let economyPercentage = (economy / income) * 100;
+      if (income === 0) {
+        economyPercentage = 0;
+      }
 
       acc[month] = {
         month,
