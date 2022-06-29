@@ -1,2 +1,2 @@
 # budgetify
-##### Exadel Internship project
+##### MEAN Stack Project
